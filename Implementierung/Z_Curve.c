@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
 }
 
 void z_curve(unsigned degree, coord_t* x, coord_t* y) {
-    unsigned size = 1 << (2 * degree); // Anzahl der Punkte auf der Z-Kurve
+    unsigned size = 1 << (2 * degree); //calculate number of points based on degree
     unsigned index = 0; //index for buffer
 
     //starting coordinates
