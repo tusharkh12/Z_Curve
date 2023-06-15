@@ -7,13 +7,10 @@
 typedef int coord_t;
 
 void z_curve(unsigned degree, coord_t* x, coord_t* y);
-
-void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y);
-
-size_t z_curve_pos(unsigned degree, coord_t x, coord_t y);
+void z_curve_recursive(unsigned degree, coord_t start_x, coord_t start_y, coord_t* x, coord_t* y, unsigned* index);
 
 int main(int argc, char *argv[]) {
-    //for testing purpose
+    //for testing purpose will be replaced with inputs later
     unsigned testDegree = 3;
     //calculate number of points based on degree
     unsigned numberOfPoints = 1 << (2 * testDegree);
@@ -29,7 +26,7 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    //clock setup (not sure if ideal setup)
+    //clock setup (could prob be done cleaner)
     clock_t begin, end;
     float z;
     begin = clock();
@@ -43,14 +40,7 @@ int main(int argc, char *argv[]) {
         printf("Runtime: %f seconds\n", z);
     }
 
-    /*
-    printf("Z-Curve Coordinates:\n");
-    for (unsigned i = 0; i < numberOfPoints; i++) {
-        printf("(%d, %d)\n", x[i], y[i]);
-    }
-    */
-
-    //to get the width and height of the SVG Image we first find min/max x and y
+    //to determine the width and height of the SVG Image we need to find min/max of x and y
     coord_t scalingFactor = 10;
     coord_t minX = x[0];
     coord_t minY = y[0];
@@ -67,22 +57,22 @@ int main(int argc, char *argv[]) {
     coord_t width = (maxX - minX + 1) * scalingFactor;
     coord_t height = (maxY - minY + 1) * scalingFactor;
 
-    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\">\n", width, height);
+    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\">\n", width, height); //header
 
     for (unsigned i = 0; i < numberOfPoints; i++) {
-    // Adjust the coordinates by subtracting the minimum values
-    coord_t adjustedX1 = (x[i] - minX) * scalingFactor;
-    coord_t adjustedY1 = (y[i] - minY) * scalingFactor;
+        //adjust the coordinates by subtracting the minimum values
+        coord_t adjustedX1 = (x[i] - minX) * scalingFactor;
+        coord_t adjustedY1 = (y[i] - minY) * scalingFactor;
 
-    // Check if there is a next point to draw a line
-    if (i + 1 < numberOfPoints) {
-        coord_t adjustedX2 = (x[i + 1] - minX) * scalingFactor;
-        coord_t adjustedY2 = (y[i + 1] - minY) * scalingFactor;
+        //check if there is a next point to draw a line
+        if (i + 1 < numberOfPoints) {
+            coord_t adjustedX2 = (x[i + 1] - minX) * scalingFactor;
+            coord_t adjustedY2 = (y[i + 1] - minY) * scalingFactor;
 
-        fprintf(svgFile, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"black\" />\n",
-            adjustedX1, adjustedY1, adjustedX2, adjustedY2);
+            fprintf(svgFile, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"black\" />\n",
+                    adjustedX1, adjustedY1, adjustedX2, adjustedY2);
+        }
     }
-}
 
     fprintf(svgFile, "</svg>"); //footer
 
@@ -95,47 +85,31 @@ int main(int argc, char *argv[]) {
 }
 
 void z_curve(unsigned degree, coord_t* x, coord_t* y) {
-    unsigned size = 1 << degree; // Anzahl der Punkte auf der Z-Kurve
-    int index = 0; // Index für den Puffer
+    unsigned size = 1 << (2 * degree); // Anzahl der Punkte auf der Z-Kurve
+    unsigned index = 0; //index for buffer
 
-    // Startkoordinaten
+    //starting coordinates
     coord_t start_x = 0;
     coord_t start_y = 0;
-    coord_t current_x = start_x;
-    coord_t current_y = start_y;
-    coord_t sign = 1;
 
-    x[index] = current_x;
-    y[index] = current_y;
-    index++;
-
-    for (unsigned i = 0; i < degree; i++) {
-        unsigned offset = 1 << i;
-
-        // Rechts oben
-        current_x = current_x - sign * offset;
-        x[index] = current_x;
-        y[index] = current_y;
-        index++;
-
-        // Links unten
-        current_y = current_y + sign * offset;
-        x[index] = current_x;
-        y[index] = current_y;
-        index++;
-
-        // Links oben
-        current_x = current_x + sign * offset;
-        x[index] = current_x;
-        y[index] = current_y;
-        index++;
-
-        // Rechts unten
-        current_y = current_y - sign * offset;
-        x[index] = current_x;
-        y[index] = current_y;
-        index++;
-
-        sign = -sign;
-    }
+    z_curve_recursive(degree, start_x, start_y, x, y, &index);
 }
+
+void z_curve_recursive(unsigned degree, coord_t start_x, coord_t start_y, coord_t* x, coord_t* y, unsigned* index) {
+    if (degree == 0) {
+        x[*index] = start_x;
+        y[*index] = start_y;
+        (*index)++;
+        return;
+    }
+
+    unsigned sub_size = 1 << (degree - 1);
+    unsigned sub_size_half = sub_size >> 1;
+
+    z_curve_recursive(degree - 1, start_x, start_y, x, y, index);
+    z_curve_recursive(degree - 1, start_x + sub_size, start_y, x, y, index);
+    z_curve_recursive(degree - 1, start_x, start_y + sub_size, x, y, index);
+    z_curve_recursive(degree - 1, start_x + sub_size, start_y + sub_size, x, y, index);
+}
+
+
