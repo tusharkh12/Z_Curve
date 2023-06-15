@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/u/halle/gaertnep/home_at/GRA/team223'
+make: Leaving directory '/u/halle/gaertnep/home_at/GRA/team223'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+
