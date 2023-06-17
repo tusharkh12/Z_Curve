@@ -146,7 +146,7 @@ int main(int argc, char *argv[]) {
 
 
     // Print the resulting coordinates
-    printf("Coordinates for index %zu on the Z-curve:\n", index);
+    printf("2nd Method :Coordinates for index %zu on the Z-curve:\n", index);
     printf("x = %d\n", coordX);
     printf("y = %d\n", coordY);
 
