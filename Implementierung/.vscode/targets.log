@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.3
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Jun 17 11:33:03 2023
+# Make data base, printed on Sat Jun 17 18:55:25 2023
 
 # Variables
 
@@ -29,7 +27,7 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
 .VARIABLES := 
 # environment
-PWD = /u/halle/gaertnep/home_at/GRA/team223
+PWD = /u/halle/gaertnep/home_at/GRA/team223/Implementierung
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
@@ -47,7 +45,7 @@ LANG = C
 # makefile
 MAKEFLAGS = pqrR
 # makefile
-CURDIR := /u/halle/gaertnep/home_at/GRA/team223
+CURDIR := /u/halle/gaertnep/home_at/GRA/team223/Implementierung
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # automatic
@@ -58,8 +56,8 @@ MFLAGS = -pqrR
 .SHELLFLAGS := -c
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
-# makefile
-MAKEFILE_LIST := 
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST := Makefile
 # automatic
 @F = $(notdir $@)
 # environment
@@ -95,7 +93,7 @@ MOTD_SHOWN = pam
 # automatic
 ^F = $(notdir $^)
 # environment
-SSH_CLIENT = 62.216.210.114 44672 22
+SSH_CLIENT = 62.216.210.114 44744 22
 # automatic
 ?F = $(notdir $?)
 # automatic
@@ -107,7 +105,7 @@ BROWSER = /u/halle/gaertnep/home_at/.vscode-server/bin/695af097c7bd098fbf017ce3a
 # environment
 LOGNAME = gaertnep
 # makefile
-.DEFAULT_GOAL := 
+.DEFAULT_GOAL := all
 # environment
 USER = gaertnep
 # environment
@@ -121,7 +119,7 @@ _ = /u/halle/gaertnep/home_at/.vscode-server/bin/695af097c7bd098fbf017ce3ac85e09
 # environment
 XDG_RUNTIME_DIR = /run/user/7676
 # environment
-VSCODE_IPC_HOOK_CLI = /run/user/7676/vscode-ipc-953df1f8-d4ac-4527-952f-048139c0a6b3.sock
+VSCODE_IPC_HOOK_CLI = /run/user/7676/vscode-ipc-91735287-1b55-4041-8b75-1ed640025d03.sock
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -131,7 +129,7 @@ HOME = /u/halle/gaertnep/home_at
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-XDG_SESSION_ID = 16324
+XDG_SESSION_ID = 16768
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -143,9 +141,9 @@ DEBUG = WARN
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
 # environment
-SSH_CONNECTION = 62.216.210.114 44672 131.159.76.9 22
+SSH_CONNECTION = 62.216.210.114 44744 131.159.76.9 22
 # variable set hash-table stats:
-# Load=66/1024=6%, Rehash=0, Collisions=2/93=2%
+# Load=66/1024=6%, Rehash=0, Collisions=2/99=2%
 
 # Pattern-specific Variable Values
 
@@ -153,7 +151,7 @@ SSH_CONNECTION = 62.216.210.114 44672 131.159.76.9 22
 
 # Directories
 
-# . (device 57, inode 304604077): 9 files, no impossibilities.
+# . (device 57, inode 304669469): 9 files, no impossibilities.
 
 # 9 files, no impossibilities in 1 directories.
 
@@ -166,9 +164,18 @@ SSH_CONNECTION = 62.216.210.114 44672 131.159.76.9 22
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  File does not exist.
+#  Last modified 2023-06-15 14:54:45.020094728
 #  File has been updated.
-#  Failed to be updated.
+#  Successfully updated.
+
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 5):
+	rm -f zcurve
+	rm -f zcurve.ppm
+	rm -f zcurve.svg
 
 # Not a target:
 .DEFAULT:
@@ -177,40 +184,68 @@ Makefile:
 #  File has not been updated.
 
 # Not a target:
-all:
+Z_Curve.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-17 13:06:48.743371438
+#  File has been updated.
+#  Successfully updated.
+
+all: zcurve
 #  Command line target.
 #  Implicit rule search has been done.
 #  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+
+zcurve: Z_Curve.c
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  Last modified 2023-06-17 13:06:44.06334509
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := zcurve
+# automatic
+# * := 
+# automatic
+# < := Z_Curve.c
+# automatic
+# + := Z_Curve.c
+# automatic
+# % := 
+# automatic
+# ^ := Z_Curve.c
+# automatic
+# ? := Z_Curve.c
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/11=9%
+#  recipe to execute (from 'Makefile', line 3):
+	gcc -o zcurve Z_Curve.c -lm
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-makefile:
-#  Implicit rule search has been done.
-#  File does not exist.
-#  File has been updated.
-#  Failed to be updated.
-
-# Not a target:
-GNUmakefile:
-#  Implicit rule search has been done.
-#  File does not exist.
-#  File has been updated.
-#  Failed to be updated.
-
 # files hash-table stats:
-# Load=6/1024=1%, Rehash=0, Collisions=0/15=0%
+# Load=7/1024=1%, Rehash=0, Collisions=0/22=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 17 / storage = 163 B / avg = 9 B
-# current buf: size = 8162 B / used = 163 B / count = 17 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 15 / storage = 128 B / avg = 8 B
+# current buf: size = 8162 B / used = 128 B / count = 15 / avg = 8 B
 
-# strcache performance: lookups = 20 / hit rate = 15%
+# strcache performance: lookups = 27 / hit rate = 44%
 # hash-table stats:
-# Load=17/8192=0%, Rehash=0, Collisions=0/20=0%
-# Finished Make data base on Sat Jun 17 11:33:03 2023
+# Load=15/8192=0%, Rehash=0, Collisions=0/27=0%
+# Finished Make data base on Sat Jun 17 18:55:25 2023
 
  
