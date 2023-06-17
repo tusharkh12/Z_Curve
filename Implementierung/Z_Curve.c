@@ -70,10 +70,15 @@ void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
         // Update the index for the next level
         idx %= (1 << (2 * (degree - d - 1)));
     }
+    if (degree < start_x || degree < start_y ) {
+        printf("Invalid index: %zu\n", idx);
+        return;
+    }
 
     // Store the final coordinates
     *x = start_x;
     *y = start_y;
+
 }
 
 
@@ -98,6 +103,10 @@ size_t z_curve_pos(unsigned degree, coord_t x, coord_t y) {
             break;
         }
     }
+    if (degree < x || degree < y ) {
+        printf("Invalid coordinates: %zu\n",0);
+
+    }
 
     // Free allocated memory
     free(xCoords);
@@ -110,9 +119,9 @@ size_t z_curve_pos(unsigned degree, coord_t x, coord_t y) {
 int main(int argc, char *argv[]) {
     //for testing purpose will be replaced with inputs later
 
-    unsigned testDegree = 3;
-    coord_t testX = 3;
-    coord_t testY = 3;
+    unsigned testDegree = 7;
+    coord_t testX = 99;
+    coord_t testY = 99;
     //3rd method test check
     size_t index = z_curve_pos(testDegree, testX, testY);
     printf("3rd Method :Index for (%d, %d): %zu\n", testX, testY, index);
