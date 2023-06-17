@@ -42,11 +42,16 @@ void z_curve_recursive(unsigned degree, coord_t start_x, coord_t start_y, coord_
 //2nd METHOD
 void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
     // Calculate the number of points based on the degree
-    unsigned numberOfPoints = 1 << (2 * degree);
+     unsigned numberOfPoints = pow(2,(2 * degree));
+
+//    if ( idx<0 || idx>degree) {
+//        printf("Invalid index: %s\n", "ERROR");
+//        return;
+//    }
 
     // Check if the given index is valid
-    if (idx >= numberOfPoints) {
-        printf("Invalid index: %zu\n", idx);
+    if (idx >= numberOfPoints || idx < 0) {
+        printf("Invalid index: %s\n", "ERROR");
         return;
     }
 
@@ -70,10 +75,7 @@ void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
         // Update the index for the next level
         idx %= (1 << (2 * (degree - d - 1)));
     }
-    if (degree < start_x || degree < start_y ) {
-        printf("Invalid index: %zu\n", idx);
-        return;
-    }
+
 
     // Store the final coordinates
     *x = start_x;
@@ -86,7 +88,7 @@ void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
 
 size_t z_curve_pos(unsigned degree, coord_t x, coord_t y) {
     // Calculate the number of points based on the degree
-    size_t numberOfPoints = 1 << (2 * degree);
+    unsigned numberOfPoints = pow(2,(2 * degree));
 
     // Allocate space for the coordinates
     coord_t* xCoords = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
@@ -103,8 +105,8 @@ size_t z_curve_pos(unsigned degree, coord_t x, coord_t y) {
             break;
         }
     }
-    if (degree < x || degree < y ) {
-        printf("Invalid coordinates: %zu\n",0);
+    if (degree < x || degree < y  || x<0 || y <0) {
+        printf("Invalid coordinates: %s\n","ERROR");
 
     }
 
@@ -119,9 +121,9 @@ size_t z_curve_pos(unsigned degree, coord_t x, coord_t y) {
 int main(int argc, char *argv[]) {
     //for testing purpose will be replaced with inputs later
 
-    unsigned testDegree = 7;
-    coord_t testX = 99;
-    coord_t testY = 99;
+    unsigned testDegree = 3;
+    coord_t testX = 0;
+    coord_t testY = 1;
     //3rd method test check
     size_t index = z_curve_pos(testDegree, testX, testY);
     printf("3rd Method :Index for (%d, %d): %zu\n", testX, testY, index);
@@ -149,6 +151,7 @@ int main(int argc, char *argv[]) {
 
     //2nd method test check
     coord_t coordX, coordY;
+   // size_t index =64;
 
     z_curve_at(testDegree, index,  &coordX, &coordY);
     //void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y)
