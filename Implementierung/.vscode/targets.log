@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Jun 17 18:55:25 2023
+# Make data base, printed on Thu Jun 22 01:09:24 2023
 
 # Variables
 
@@ -119,7 +119,7 @@ _ = /u/halle/gaertnep/home_at/.vscode-server/bin/695af097c7bd098fbf017ce3ac85e09
 # environment
 XDG_RUNTIME_DIR = /run/user/7676
 # environment
-VSCODE_IPC_HOOK_CLI = /run/user/7676/vscode-ipc-91735287-1b55-4041-8b75-1ed640025d03.sock
+VSCODE_IPC_HOOK_CLI = /run/user/7676/vscode-ipc-c73386df-ead3-45ee-9665-2e13a3901997.sock
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -186,7 +186,7 @@ clean:
 # Not a target:
 Z_Curve.c:
 #  Implicit rule search has been done.
-#  Last modified 2023-06-17 13:06:48.743371438
+#  Last modified 2023-06-22 00:33:23.259050447
 #  File has been updated.
 #  Successfully updated.
 
@@ -202,7 +202,7 @@ all: zcurve
 zcurve: Z_Curve.c
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
-#  Last modified 2023-06-17 13:06:44.06334509
+#  Last modified 2023-06-21 21:30:56.365298101
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
@@ -246,6 +246,6 @@ zcurve: Z_Curve.c
 # strcache performance: lookups = 27 / hit rate = 44%
 # hash-table stats:
 # Load=15/8192=0%, Rehash=0, Collisions=0/27=0%
-# Finished Make data base on Sat Jun 17 18:55:25 2023
+# Finished Make data base on Thu Jun 22 01:09:24 2023
 
  
