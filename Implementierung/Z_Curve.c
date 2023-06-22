@@ -68,9 +68,9 @@ void z_curve2(unsigned degree, coord_t* x, coord_t* y) {
 }
 
 void z_curve_at2(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
-  unsigned int num1 = 0; // Stores the bits of the first number
-  unsigned int num2 = 0; // Stores the bits of the second number
-  unsigned int mask = 1; // Bit mask to extract alternating bits
+  coord_t num1 = 0; // Stores the bits of the first number
+  coord_t num2 = 0; // Stores the bits of the second number
+  coord_t mask = 1; // Bit mask to extract alternating bits
   
   while (idx > 0) {
     if (idx & 1) {
@@ -88,13 +88,13 @@ void z_curve_at2(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
     mask <<= 1;
   }
   
-  x = num1;
-  y = num2;
+  *x = num1;
+  *y = num2;
 }
 
 size_t z_curve_pos2(unsigned degree, coord_t x, coord_t y) {
   size_t result = 0;
-  unsigned int mask = 1;
+  coord_t mask = 1;
   
   while (x > 0 || y > 0) {
     if (y & 1) {
@@ -110,6 +110,16 @@ size_t z_curve_pos2(unsigned degree, coord_t x, coord_t y) {
   
   return result;
 }
+
+size_t z_curve_pos3(unsigned degree, coord_t x, coord_t y) {
+  size_t z = 0;
+    for (int i = 0; i < sizeof(unsigned int) * 8; i++) {
+        z |= (x & (1u << i)) << i | (y & (1u << i)) << (i + 1);
+    }
+    return z;
+}
+
+
 
 int main(int argc, char *argv[]) {
     //for testing purpose will be replaced with inputs later
@@ -141,8 +151,7 @@ int main(int argc, char *argv[]) {
     begin = clock();
 
     //z_curve(testDegree, x, y);
-    z_curve4(testDegree, x, y);
-    
+
     //2nd method test check
     //coord_t coordX, coordY;
     //size_t index =64;
