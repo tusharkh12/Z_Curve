@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jun 23 00:11:46 2023
+# Make data base, printed on Sat Jun 24 20:51:13 2023
 
 # Variables
 
@@ -119,7 +119,7 @@ _ = /u/halle/gaertnep/home_at/.vscode-server/bin/695af097c7bd098fbf017ce3ac85e09
 # environment
 XDG_RUNTIME_DIR = /run/user/7676
 # environment
-VSCODE_IPC_HOOK_CLI = /run/user/7676/vscode-ipc-1863b71b-1e1e-4dce-8bf7-9315e3dcc80d.sock
+VSCODE_IPC_HOOK_CLI = /run/user/7676/vscode-ipc-978fefe9-f592-4e29-b0fb-ca4eb5f1b9a5.sock
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -136,12 +136,14 @@ XDG_SESSION_ID = 16768
 <F = $(notdir $<)
 # default
 SUFFIXES := 
+# environment
+DEBUG = WARN
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
 # environment
 SSH_CONNECTION = 62.216.210.114 44744 131.159.76.9 22
 # variable set hash-table stats:
-# Load=65/1024=6%, Rehash=0, Collisions=2/98=2%
+# Load=66/1024=6%, Rehash=0, Collisions=2/96=2%
 
 # Pattern-specific Variable Values
 
@@ -149,9 +151,9 @@ SSH_CONNECTION = 62.216.210.114 44744 131.159.76.9 22
 
 # Directories
 
-# . (device 57, inode 304669469): 7 files, no impossibilities.
+# . (device 57, inode 304669469): 8 files, no impossibilities.
 
-# 7 files, no impossibilities in 1 directories.
+# 8 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -184,7 +186,7 @@ clean:
 # Not a target:
 Z_Curve.c:
 #  Implicit rule search has been done.
-#  Last modified 2023-06-22 01:11:36.768853885
+#  Last modified 2023-06-24 17:57:47.080850826
 #  File has been updated.
 #  Successfully updated.
 
@@ -193,57 +195,30 @@ all: zcurve
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+#  Successfully updated.
 
 zcurve: Z_Curve.c
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  File does not exist.
+#  Last modified 2023-06-24 17:57:51.352876125
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := zcurve
-# automatic
-# * := 
-# automatic
-# < := Z_Curve.c
-# automatic
-# + := Z_Curve.c
-# automatic
-# % := 
-# automatic
-# ^ := Z_Curve.c
-# automatic
-# ? := Z_Curve.c
-# automatic
-# | := 
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/11=9%
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 3):
 	gcc -o zcurve Z_Curve.c -lm
 
-# Not a target:
-.SUFFIXES:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
 # files hash-table stats:
-# Load=7/1024=1%, Rehash=0, Collisions=0/22=0%
+# Load=7/1024=1%, Rehash=0, Collisions=0/21=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 14 / storage = 117 B / avg = 8 B
-# current buf: size = 8162 B / used = 117 B / count = 14 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 14 / storage = 120 B / avg = 8 B
+# current buf: size = 8162 B / used = 120 B / count = 14 / avg = 8 B
 
 # strcache performance: lookups = 25 / hit rate = 44%
 # hash-table stats:
 # Load=14/8192=0%, Rehash=0, Collisions=0/25=0%
-# Finished Make data base on Fri Jun 23 00:11:46 2023
+# Finished Make data base on Sat Jun 24 20:51:13 2023
 
  

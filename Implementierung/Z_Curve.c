@@ -68,6 +68,7 @@ void z_curve2(unsigned degree, coord_t* x, coord_t* y) {
 }
 
 void z_curve_at2(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
+  //opposite of interleaving similar approach in the z_curve_iterative method (maybe one is faster than the other?)
   coord_t num1 = 0; // Stores the bits of the first number
   coord_t num2 = 0; // Stores the bits of the second number
   coord_t mask = 1; // Bit mask to extract alternating bits
@@ -93,6 +94,7 @@ void z_curve_at2(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
 }
 
 size_t z_curve_pos2(unsigned degree, coord_t x, coord_t y) {
+  //interleaving
   size_t result = 0;
   coord_t mask = 1;
   
@@ -112,6 +114,7 @@ size_t z_curve_pos2(unsigned degree, coord_t x, coord_t y) {
 }
 
 size_t z_curve_pos3(unsigned degree, coord_t x, coord_t y) {
+  //interleaving  
   size_t z = 0;
     for (int i = 0; i < sizeof(unsigned int) * 8; i++) {
         z |= (x & (1u << i)) << i | (y & (1u << i)) << (i + 1);
@@ -119,12 +122,12 @@ size_t z_curve_pos3(unsigned degree, coord_t x, coord_t y) {
     return z;
 }
 
-
-
 int main(int argc, char *argv[]) {
     //for testing purpose will be replaced with inputs later
+    coord_t xr[] = {0, 1, 2, 3};
+    coord_t yr[] = {0, 1, 2, 3};
 
-    unsigned testDegree = 1;
+    unsigned testDegree = 2;
     coord_t testX = 0;
     coord_t testY = 1;
     //3rd method test check
@@ -151,6 +154,8 @@ int main(int argc, char *argv[]) {
     begin = clock();
 
     //z_curve(testDegree, x, y);
+    //z_curve_iterative(testDegree, x, y);
+    z_curve_recursive2(testDegree, x, y);
 
     //2nd method test check
     //coord_t coordX, coordY;
@@ -170,6 +175,7 @@ int main(int argc, char *argv[]) {
     if (z != 0) {
         printf("Runtime: %f seconds\n", z);
     }
+
 
     //to determine the width and height of the SVG Image we need to find min/max of x and y
     coord_t scalingFactor = 10;
@@ -204,7 +210,7 @@ int main(int argc, char *argv[]) {
                     adjustedX1, adjustedY1, adjustedX2, adjustedY2);
         }
     }
-
+  
     fprintf(svgFile, "</svg>"); //footer
 
     //free allocated memory
@@ -232,12 +238,16 @@ void z_curve_iterative(unsigned degree, coord_t* x, coord_t* y) {
       //bitwise-or of x2 with the least significant bit of n 
       //which we get via (n & 1) 
       //this is then left-shifted by s positions
+      //basically the opposite of interleaving 
+      //similar approach in z_curve_at2
       x2 |= (n & 1) << s;
 
       //bitwise-or of y2 with the second least significan bit of n
       //which we get via (n & 2)
       //which we then shift once to the right before again
       //left-shifting by s positions
+      //basically the opposite of interleaving 
+      //similar approach in z_curve_at2
       y2 |= ((n & 2) >> 1) << s;
 
       //discard the two bits used for x2 and y2 by shifting twice to the right
@@ -272,6 +282,7 @@ void z_curve_recursive(unsigned degree, coord_t start_x, coord_t start_y, coord_
     }
 
     unsigned sub_size = 1 << (degree - 1);
+    unsigned sub_size = pow(2, degree-1);
     //unsigned sub_size_half = sub_size >> 1;
 
     z_curve_recursive(degree - 1, start_x, start_y, x, y, index);
