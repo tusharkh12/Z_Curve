@@ -4,6 +4,9 @@
 #include <stddef.h>
 #include <string.h>
 #include <math.h>
+#include <pthread.h>
+#include <emmintrin.h>
+
 
 typedef int coord_t;
 
@@ -13,59 +16,6 @@ void z_curve_recursive(unsigned degree, coord_t start_x, coord_t start_y, coord_
 
 void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y);
 size_t z_curve_pos(unsigned degree, coord_t x, coord_t y);
-
-void z_curve3(unsigned degree, coord_t* x, coord_t* y) {
-    unsigned numberOfPoints = pow(4, degree); 
-
-    for (int i = 0; i < numberOfPoints; i = i + 4) {
-        x[i] = i;
-    }
-}
-
-void z_curve2(unsigned degree, coord_t* x, coord_t* y) {
- x[0] = 0;
- y[0] = 0;
-
- x[1] = 1;
- y[1] = 0;
-
- x[2] = 0;
- y[2] = 1;
-
- x[3] = 1;
- y[3] = 1;
-
- if (degree == 1) {
-    return;
- }
-
- int numberOfPoints = pow(4, degree); 
-
- for (int i = 4; i <= numberOfPoints; i++) {
-    int len = i / 2;
-    switch (i & 3) {
-        case 0: /* case A: top-left */
-            x[i] = x[i-4] + len;
-            y[i] = y[i-4];
-            break;
-
-        case 1: /* case B: top-right */
-            x[i] = x[i-4] + len;
-            y[i] = y[i-4];
-            break;
-
-        case 2: /* case C: bottom-left */
-            x[i] = x[i-4] + len;
-            y[i] = y[i-4];
-            break;
-
-        case 3: /* case D: bottom-right */
-            x[i] = x[i-4] + len;
-            y[i] = y[i-4];
-            break; 
-    }
-    }
-}
 
 void z_curve_at2(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
   //opposite of interleaving similar approach in the z_curve_iterative method (maybe one is faster than the other?)
@@ -122,16 +72,83 @@ size_t z_curve_pos3(unsigned degree, coord_t x, coord_t y) {
     return z;
 }
 
+void z_curve_recursive_simd(unsigned degree, unsigned start_index, unsigned sub_size, coord_t* x, coord_t* y, unsigned* index) {
+    if (degree == 0) {
+        unsigned end_index = start_index + sub_size * sub_size;
+        for (unsigned i = start_index; i < end_index && *index < (1 << (2 * degree)); i++) {
+            x[*index] = i % sub_size;
+            y[*index] = i / sub_size;
+            (*index)++;
+        }
+        return;
+    }
+
+    unsigned num_points = sub_size * sub_size;
+
+    __m128i start_index_vec = _mm_set1_epi32(start_index);
+    __m128i sub_size_vec = _mm_set1_epi32(sub_size);
+
+    for (unsigned i = 0; i < num_points; i += 4) {
+        if (*index >= (1 << (2 * degree)))
+            break;
+
+        __m128i indices = _mm_add_epi32(start_index_vec, _mm_set_epi32(i + 3, i + 2, i + 1, i));
+        __m128i x_indices = _mm_and_si128(indices, _mm_set1_epi32(sub_size - 1));
+        __m128i y_indices = _mm_srli_epi32(indices, 1);
+
+        _mm_storeu_si128((__m128i*) &x[*index], x_indices);
+        _mm_storeu_si128((__m128i*) &y[*index], y_indices);
+
+        (*index) += 4;
+    }
+
+    unsigned next_start_index = start_index;
+    unsigned next_sub_size = sub_size >> 1;
+
+    z_curve_recursive_simd(degree - 1, next_start_index, next_sub_size, x, y, index); // Top-left quadrant
+    z_curve_recursive_simd(degree - 1, next_start_index + next_sub_size, next_sub_size, x, y, index); // Top-right quadrant
+    z_curve_recursive_simd(degree - 1, next_start_index + next_sub_size * sub_size, next_sub_size, x, y, index); // Bottom-left quadrant
+    z_curve_recursive_simd(degree - 1, next_start_index + next_sub_size * sub_size + next_sub_size, next_sub_size, x, y, index); // Bottom-right quadrant
+}
+
+void z_curve_simd(unsigned degree, coord_t* x, coord_t* y) {
+    unsigned size = 1 << degree;
+    unsigned index = 0;
+
+    z_curve_recursive_simd(degree, 0, size, x, y, &index);
+}
+
+
+void z_curve_morton(unsigned degree, coord_t* x, coord_t* y) {
+  // calculate the total number of points
+  // 2^(2*degree)
+  unsigned total_points = 1 << (2 * degree);
+
+  // iterate over each point
+  for (unsigned i = 0; i < total_points; i++) {
+    // calculate Morton code (Z-curve)
+    unsigned x2 = 0;
+    unsigned y2 = 0;
+
+    for (unsigned bit = 0; bit < degree; bit++) {
+      x2 |= (i & (1 << (2 * bit))) >> bit;
+      y2 |= (i & (1 << (2 * bit + 1))) >> (bit + 1);
+    }
+
+    // store the calculated coordinates
+    x[i] = x2;
+    y[i] = y2;
+  }
+}
+
+
 int main(int argc, char *argv[]) {
     //for testing purpose will be replaced with inputs later
-    coord_t xr[] = {0, 1, 2, 3};
-    coord_t yr[] = {0, 1, 2, 3};
-
-    unsigned testDegree = 2;
-    coord_t testX = 0;
-    coord_t testY = 1;
+    unsigned testDegree = 15;
+    //coord_t testX = 0;
+    //coord_t testY = 1;
     //3rd method test check
-    size_t index = z_curve_pos(testDegree, testX, testY);
+    //size_t index = z_curve_pos(testDegree, testX, testY);
     //printf("3rd Method :Index for (%d, %d): %zu\n", testX, testY, index);
 
     //calculate number of points based on degree
@@ -139,15 +156,23 @@ int main(int argc, char *argv[]) {
 
     //allocate space of coordinates
     coord_t* x = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
+    if (x == NULL) {
+      return -1;
+    }
+
     coord_t* y = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
+    if (y == NULL) {
+      return -1;
+    }
 
     //create image (SVG for now)
+    
     FILE* svgFile = fopen("zcurve.svg", "wb");
     if (svgFile == NULL) {
         printf("Error opening the SVG file.\n");
         return -1;
     }
-
+    
     //clock setup (could prob be done cleaner)
     clock_t begin, end;
     float z;
@@ -155,7 +180,8 @@ int main(int argc, char *argv[]) {
 
     //z_curve(testDegree, x, y);
     //z_curve_iterative(testDegree, x, y);
-    z_curve_recursive2(testDegree, x, y);
+    //z_curve_simd(testDegree, x, y);
+    z_curve_morton(testDegree, x, y);
 
     //2nd method test check
     //coord_t coordX, coordY;
@@ -176,7 +202,7 @@ int main(int argc, char *argv[]) {
         printf("Runtime: %f seconds\n", z);
     }
 
-
+    
     //to determine the width and height of the SVG Image we need to find min/max of x and y
     coord_t scalingFactor = 10;
     coord_t minX = x[0];
@@ -211,8 +237,9 @@ int main(int argc, char *argv[]) {
         }
     }
   
+    
     fprintf(svgFile, "</svg>"); //footer
-
+    
     //free allocated memory
     free(x);
     free(y);
@@ -282,7 +309,6 @@ void z_curve_recursive(unsigned degree, coord_t start_x, coord_t start_y, coord_
     }
 
     unsigned sub_size = 1 << (degree - 1);
-    unsigned sub_size = pow(2, degree-1);
     //unsigned sub_size_half = sub_size >> 1;
 
     z_curve_recursive(degree - 1, start_x, start_y, x, y, index);
