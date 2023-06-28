@@ -18,54 +18,54 @@ void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y);
 size_t z_curve_pos(unsigned degree, coord_t x, coord_t y);
 
 void z_curve_at2(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
-  //opposite of interleaving similar approach in the z_curve_iterative method (maybe one is faster than the other?)
-  coord_t num1 = 0; // Stores the bits of the first number
-  coord_t num2 = 0; // Stores the bits of the second number
-  coord_t mask = 1; // Bit mask to extract alternating bits
-  
-  while (idx > 0) {
-    if (idx & 1) {
-      num1 |= mask;
-      idx >>= 1;
-    } else {
-      idx >>= 1;
+    //opposite of interleaving similar approach in the z_curve_iterative method (maybe one is faster than the other?)
+    coord_t num1 = 0; // Stores the bits of the first number
+    coord_t num2 = 0; // Stores the bits of the second number
+    coord_t mask = 1; // Bit mask to extract alternating bits
+
+    while (idx > 0) {
+        if (idx & 1) {
+            num1 |= mask;
+            idx >>= 1;
+        } else {
+            idx >>= 1;
+        }
+        if (idx & 1) {
+            num2 |= mask;
+            idx >>= 1;
+        } else {
+            idx >>= 1;
+        }
+        mask <<= 1;
     }
-    if (idx & 1) {
-      num2 |= mask;
-      idx >>= 1;
-    } else {
-      idx >>= 1;
-    }
-    mask <<= 1;
-  }
-  
-  *x = num1;
-  *y = num2;
+
+    *x = num1;
+    *y = num2;
 }
 
 size_t z_curve_pos2(unsigned degree, coord_t x, coord_t y) {
-  //interleaving
-  size_t result = 0;
-  coord_t mask = 1;
-  
-  while (x > 0 || y > 0) {
-    if (y & 1) {
-      result |= (mask << 1);
+    //interleaving
+    size_t result = 0;
+    coord_t mask = 1;
+
+    while (x > 0 || y > 0) {
+        if (y & 1) {
+            result |= (mask << 1);
+        }
+        if (x & 1) {
+            result |= mask;
+        }
+        x >>= 1;
+        y >>= 1;
+        mask <<= 2;
     }
-    if (x & 1) {
-      result |= mask;
-    }
-    x >>= 1;
-    y >>= 1;
-    mask <<= 2;
-  }
-  
-  return result;
+
+    return result;
 }
 
 size_t z_curve_pos3(unsigned degree, coord_t x, coord_t y) {
-  //interleaving  
-  size_t z = 0;
+    //interleaving
+    size_t z = 0;
     for (int i = 0; i < sizeof(unsigned int) * 8; i++) {
         z |= (x & (1u << i)) << i | (y & (1u << i)) << (i + 1);
     }
@@ -120,25 +120,25 @@ void z_curve_simd(unsigned degree, coord_t* x, coord_t* y) {
 
 
 void z_curve_morton(unsigned degree, coord_t* x, coord_t* y) {
-  // calculate the total number of points
-  // 2^(2*degree)
-  unsigned total_points = 1 << (2 * degree);
+    // calculate the total number of points
+    // 2^(2*degree)
+    unsigned total_points = 1 << (2 * degree);
 
-  // iterate over each point
-  for (unsigned i = 0; i < total_points; i++) {
-    // calculate Morton code (Z-curve)
-    unsigned x2 = 0;
-    unsigned y2 = 0;
+    // iterate over each point
+    for (unsigned i = 0; i < total_points; i++) {
+        // calculate Morton code (Z-curve)
+        unsigned x2 = 0;
+        unsigned y2 = 0;
 
-    for (unsigned bit = 0; bit < degree; bit++) {
-      x2 |= (i & (1 << (2 * bit))) >> bit;
-      y2 |= (i & (1 << (2 * bit + 1))) >> (bit + 1);
+        for (unsigned bit = 0; bit < degree; bit++) {
+            x2 |= (i & (1 << (2 * bit))) >> bit;
+            y2 |= (i & (1 << (2 * bit + 1))) >> (bit + 1);
+        }
+
+        // store the calculated coordinates
+        x[i] = x2;
+        y[i] = y2;
     }
-
-    // store the calculated coordinates
-    x[i] = x2;
-    y[i] = y2;
-  }
 }
 
 
@@ -157,22 +157,22 @@ int main(int argc, char *argv[]) {
     //allocate space of coordinates
     coord_t* x = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
     if (x == NULL) {
-      return -1;
+        return -1;
     }
 
     coord_t* y = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
     if (y == NULL) {
-      return -1;
+        return -1;
     }
 
     //create image (SVG for now)
-    
+
     FILE* svgFile = fopen("zcurve.svg", "wb");
     if (svgFile == NULL) {
         printf("Error opening the SVG file.\n");
         return -1;
     }
-    
+
     //clock setup (could prob be done cleaner)
     clock_t begin, end;
     float z;
@@ -202,7 +202,7 @@ int main(int argc, char *argv[]) {
         printf("Runtime: %f seconds\n", z);
     }
 
-    
+
     //to determine the width and height of the SVG Image we need to find min/max of x and y
     coord_t scalingFactor = 10;
     coord_t minX = x[0];
@@ -236,10 +236,10 @@ int main(int argc, char *argv[]) {
                     adjustedX1, adjustedY1, adjustedX2, adjustedY2);
         }
     }
-  
-    
+
+
     fprintf(svgFile, "</svg>"); //footer
-    
+
     //free allocated memory
     free(x);
     free(y);
@@ -249,49 +249,49 @@ int main(int argc, char *argv[]) {
 }
 
 void z_curve_iterative(unsigned degree, coord_t* x, coord_t* y) {
-  //calculate the total number of points
-  //2^(2*degree)
-  unsigned total_points = 1 << (2 * degree);
+    //calculate the total number of points
+    //2^(2*degree)
+    unsigned total_points = 1 << (2 * degree);
 
-  //iterate over each point
-  for (unsigned i = 0; i < total_points; i++) {
-    //index and starting coordinate values of x and y for the current point
-    unsigned n = i;
-    unsigned x2 = 0;
-    unsigned y2 = 0;
+    //iterate over each point
+    for (unsigned i = 0; i < total_points; i++) {
+        //index and starting coordinate values of x and y for the current point
+        unsigned n = i;
+        unsigned x2 = 0;
+        unsigned y2 = 0;
 
-    //calculate coordinates for current point
-    for (unsigned s = 0; s < degree; s++) {
-      //bitwise-or of x2 with the least significant bit of n 
-      //which we get via (n & 1) 
-      //this is then left-shifted by s positions
-      //basically the opposite of interleaving 
-      //similar approach in z_curve_at2
-      x2 |= (n & 1) << s;
+        //calculate coordinates for current point
+        for (unsigned s = 0; s < degree; s++) {
+            //bitwise-or of x2 with the least significant bit of n
+            //which we get via (n & 1)
+            //this is then left-shifted by s positions
+            //basically the opposite of interleaving
+            //similar approach in z_curve_at2
+            x2 |= (n & 1) << s;
 
-      //bitwise-or of y2 with the second least significan bit of n
-      //which we get via (n & 2)
-      //which we then shift once to the right before again
-      //left-shifting by s positions
-      //basically the opposite of interleaving 
-      //similar approach in z_curve_at2
-      y2 |= ((n & 2) >> 1) << s;
+            //bitwise-or of y2 with the second least significan bit of n
+            //which we get via (n & 2)
+            //which we then shift once to the right before again
+            //left-shifting by s positions
+            //basically the opposite of interleaving
+            //similar approach in z_curve_at2
+            y2 |= ((n & 2) >> 1) << s;
 
-      //discard the two bits used for x2 and y2 by shifting twice to the right
-      n >>= 2;
+            //discard the two bits used for x2 and y2 by shifting twice to the right
+            n >>= 2;
+        }
+
+        //store the calculated coordinates
+        x[i] = x2;
+        y[i] = y2;
     }
-
-    //store the calculated coordinates
-    x[i] = x2;
-    y[i] = y2;
-  }
 }
 
 void z_curve(unsigned degree, coord_t* x, coord_t* y) {
     //Calculate the total number of points
     unsigned size = 1 << (2 * degree);
     //index for buffer
-    unsigned index = 0; 
+    unsigned index = 0;
 
     //starting coordinates
     coord_t start_x = 0;
@@ -317,14 +317,20 @@ void z_curve_recursive(unsigned degree, coord_t start_x, coord_t start_y, coord_
     z_curve_recursive(degree - 1, start_x + sub_size, start_y + sub_size, x, y, index);
 }
 
+
 //2nd METHOD
 void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
     // Calculate the number of points based on the degree
-    unsigned numberOfPoints = 1 << (2 * degree);
+    unsigned numberOfPoints = pow(2,(2 * degree));
+
+//    if ( idx<0 || idx>degree) {
+//        printf("Invalid index: %s\n", "ERROR");
+//        return;
+//    }
 
     // Check if the given index is valid
-    if (idx >= numberOfPoints) {
-        printf("Invalid index: %zu\n", idx);
+    if (idx >= numberOfPoints || idx < 0) {
+        printf("Invalid index: %s\n", "ERROR");
         return;
     }
 
@@ -348,10 +354,7 @@ void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
         // Update the index for the next level
         idx %= (1 << (2 * (degree - d - 1)));
     }
-    if (degree < start_x || degree < start_y ) {
-        printf("Invalid index: %zu\n", idx);
-        return;
-    }
+
 
     // Store the final coordinates
     *x = start_x;
@@ -359,10 +362,12 @@ void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
 
 }
 
+
 //3rd METHOD
+
 size_t z_curve_pos(unsigned degree, coord_t x, coord_t y) {
     // Calculate the number of points based on the degree
-    size_t numberOfPoints = 1 << (2 * degree);
+    unsigned numberOfPoints = pow(2,(2 * degree));
 
     // Allocate space for the coordinates
     coord_t* xCoords = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
@@ -390,3 +395,11 @@ size_t z_curve_pos(unsigned degree, coord_t x, coord_t y) {
 
     return index;
 }
+
+
+
+
+
+
+
+
