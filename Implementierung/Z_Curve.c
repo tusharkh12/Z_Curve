@@ -4,9 +4,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <math.h>
-#include <pthread.h>
-#include <emmintrin.h>
-
+#include <immintrin.h>
 
 typedef int coord_t;
 
