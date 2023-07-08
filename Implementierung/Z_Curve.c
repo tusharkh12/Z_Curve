@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <math.h>
-#include <immintrin.h>
+// #include <immintrin.h>
 
 typedef int coord_t;
 
@@ -70,51 +70,51 @@ size_t z_curve_pos3(unsigned degree, coord_t x, coord_t y) {
     return z;
 }
 
-void z_curve_recursive_simd(unsigned degree, unsigned start_index, unsigned sub_size, coord_t* x, coord_t* y, unsigned* index) {
-    if (degree == 0) {
-        unsigned end_index = start_index + sub_size * sub_size;
-        for (unsigned i = start_index; i < end_index && *index < (1 << (2 * degree)); i++) {
-            x[*index] = i % sub_size;
-            y[*index] = i / sub_size;
-            (*index)++;
-        }
-        return;
-    }
+// void z_curve_recursive_simd(unsigned degree, unsigned start_index, unsigned sub_size, coord_t* x, coord_t* y, unsigned* index) {
+//     if (degree == 0) {
+//         unsigned end_index = start_index + sub_size * sub_size;
+//         for (unsigned i = start_index; i < end_index && *index < (1 << (2 * degree)); i++) {
+//             x[*index] = i % sub_size;
+//             y[*index] = i / sub_size;
+//             (*index)++;
+//         }
+//         return;
+//     }
 
-    unsigned num_points = sub_size * sub_size;
+//     unsigned num_points = sub_size * sub_size;
 
-    __m128i start_index_vec = _mm_set1_epi32(start_index);
-    __m128i sub_size_vec = _mm_set1_epi32(sub_size);
+//     __m128i start_index_vec = _mm_set1_epi32(start_index);
+//     __m128i sub_size_vec = _mm_set1_epi32(sub_size);
 
-    for (unsigned i = 0; i < num_points; i += 4) {
-        if (*index >= (1 << (2 * degree)))
-            break;
+//     for (unsigned i = 0; i < num_points; i += 4) {
+//         if (*index >= (1 << (2 * degree)))
+//             break;
 
-        __m128i indices = _mm_add_epi32(start_index_vec, _mm_set_epi32(i + 3, i + 2, i + 1, i));
-        __m128i x_indices = _mm_and_si128(indices, _mm_set1_epi32(sub_size - 1));
-        __m128i y_indices = _mm_srli_epi32(indices, 1);
+//         __m128i indices = _mm_add_epi32(start_index_vec, _mm_set_epi32(i + 3, i + 2, i + 1, i));
+//         __m128i x_indices = _mm_and_si128(indices, _mm_set1_epi32(sub_size - 1));
+//         __m128i y_indices = _mm_srli_epi32(indices, 1);
 
-        _mm_storeu_si128((__m128i*) &x[*index], x_indices);
-        _mm_storeu_si128((__m128i*) &y[*index], y_indices);
+//         _mm_storeu_si128((__m128i*) &x[*index], x_indices);
+//         _mm_storeu_si128((__m128i*) &y[*index], y_indices);
 
-        (*index) += 4;
-    }
+//         (*index) += 4;
+//     }
 
-    unsigned next_start_index = start_index;
-    unsigned next_sub_size = sub_size >> 1;
+//     unsigned next_start_index = start_index;
+//     unsigned next_sub_size = sub_size >> 1;
 
-    z_curve_recursive_simd(degree - 1, next_start_index, next_sub_size, x, y, index); // Top-left quadrant
-    z_curve_recursive_simd(degree - 1, next_start_index + next_sub_size, next_sub_size, x, y, index); // Top-right quadrant
-    z_curve_recursive_simd(degree - 1, next_start_index + next_sub_size * sub_size, next_sub_size, x, y, index); // Bottom-left quadrant
-    z_curve_recursive_simd(degree - 1, next_start_index + next_sub_size * sub_size + next_sub_size, next_sub_size, x, y, index); // Bottom-right quadrant
-}
+//     z_curve_recursive_simd(degree - 1, next_start_index, next_sub_size, x, y, index); // Top-left quadrant
+//     z_curve_recursive_simd(degree - 1, next_start_index + next_sub_size, next_sub_size, x, y, index); // Top-right quadrant
+//     z_curve_recursive_simd(degree - 1, next_start_index + next_sub_size * sub_size, next_sub_size, x, y, index); // Bottom-left quadrant
+//     z_curve_recursive_simd(degree - 1, next_start_index + next_sub_size * sub_size + next_sub_size, next_sub_size, x, y, index); // Bottom-right quadrant
+// }
 
-void z_curve_simd(unsigned degree, coord_t* x, coord_t* y) {
-    unsigned size = 1 << degree;
-    unsigned index = 0;
+// void z_curve_simd(unsigned degree, coord_t* x, coord_t* y) {
+//     unsigned size = 1 << degree;
+//     unsigned index = 0;
 
-    z_curve_recursive_simd(degree, 0, size, x, y, &index);
-}
+//     z_curve_recursive_simd(degree, 0, size, x, y, &index);
+// }
 
 
 void z_curve_morton(unsigned degree, coord_t* x, coord_t* y) {
@@ -165,21 +165,21 @@ int main(int argc, char *argv[]) {
 
     //create image (SVG for now)
 
-    FILE* svgFile = fopen("zcurve.svg", "wb");
-    if (svgFile == NULL) {
-        printf("Error opening the SVG file.\n");
-        return -1;
-    }
+    // FILE* svgFile = fopen("zcurve.svg", "wb");
+    // if (svgFile == NULL) {
+    //     printf("Error opening the SVG file.\n");
+    //     return -1;
+    // }
 
     //clock setup (could prob be done cleaner)
     clock_t begin, end;
     float z;
     begin = clock();
 
-    //z_curve(testDegree, x, y);
+    z_curve(testDegree, x, y);
     //z_curve_iterative(testDegree, x, y);
     //z_curve_simd(testDegree, x, y);
-    z_curve_morton(testDegree, x, y);
+    // z_curve_morton(testDegree, x, y);
 
     //2nd method test check
     //coord_t coordX, coordY;
@@ -201,47 +201,47 @@ int main(int argc, char *argv[]) {
     }
 
 
-    //to determine the width and height of the SVG Image we need to find min/max of x and y
-    coord_t scalingFactor = 10;
-    coord_t minX = x[0];
-    coord_t minY = y[0];
-    coord_t maxX = x[0];
-    coord_t maxY = y[0];
-    for (unsigned i = 1; i < numberOfPoints; i++) {
-        if (x[i] < minX) minX = x[i];
-        if (x[i] > maxX) maxX = x[i];
-        if (y[i] < minY) minY = y[i];
-        if (y[i] > maxY) maxY = y[i];
-    }
+    // //to determine the width and height of the SVG Image we need to find min/max of x and y
+    // coord_t scalingFactor = 10;
+    // coord_t minX = x[0];
+    // coord_t minY = y[0];
+    // coord_t maxX = x[0];
+    // coord_t maxY = y[0];
+    // for (unsigned i = 1; i < numberOfPoints; i++) {
+    //     if (x[i] < minX) minX = x[i];
+    //     if (x[i] > maxX) maxX = x[i];
+    //     if (y[i] < minY) minY = y[i];
+    //     if (y[i] > maxY) maxY = y[i];
+    // }
 
-    //dimensions of the SVG image
-    coord_t width = (maxX - minX + 1) * scalingFactor+100;
-    coord_t height = (maxY - minY + 1) * scalingFactor;
+    // //dimensions of the SVG image
+    // coord_t width = (maxX - minX + 1) * scalingFactor+100;
+    // coord_t height = (maxY - minY + 1) * scalingFactor;
 
-    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\">\n", width, height); //header
+    // fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\">\n", width, height); //header
 
-    for (unsigned i = 0; i < numberOfPoints; i++) {
-        //adjust the coordinates by subtracting the minimum values
-        coord_t adjustedX1 = (x[i] - minX) * scalingFactor;
-        coord_t adjustedY1 = (y[i] - minY) * scalingFactor;
+    // for (unsigned i = 0; i < numberOfPoints; i++) {
+    //     //adjust the coordinates by subtracting the minimum values
+    //     coord_t adjustedX1 = (x[i] - minX) * scalingFactor;
+    //     coord_t adjustedY1 = (y[i] - minY) * scalingFactor;
 
-        //check if there is a next point to draw a line
-        if (i + 1 < numberOfPoints) {
-            coord_t adjustedX2 = (x[i + 1] - minX) * scalingFactor;
-            coord_t adjustedY2 = (y[i + 1] - minY) * scalingFactor;
+    //     //check if there is a next point to draw a line
+    //     if (i + 1 < numberOfPoints) {
+    //         coord_t adjustedX2 = (x[i + 1] - minX) * scalingFactor;
+    //         coord_t adjustedY2 = (y[i + 1] - minY) * scalingFactor;
 
-            fprintf(svgFile, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"black\" />\n",
-                    adjustedX1, adjustedY1, adjustedX2, adjustedY2);
-        }
-    }
+    //         fprintf(svgFile, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"black\" />\n",
+    //                 adjustedX1, adjustedY1, adjustedX2, adjustedY2);
+    //     }
+    // }
 
 
-    fprintf(svgFile, "</svg>"); //footer
+    // fprintf(svgFile, "</svg>"); //footer
 
     //free allocated memory
     free(x);
     free(y);
-    fclose(svgFile);
+    // fclose(svgFile);
 
     return 0;
 }

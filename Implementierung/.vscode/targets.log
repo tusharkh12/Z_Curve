@@ -1,147 +1,154 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-# GNU Make 4.3
-# Built for x86_64-pc-linux-gnu
-# Copyright (C) 1988-2020 Free Software Foundation, Inc.
-# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-# This is free software: you are free to change and redistribute it.
-# There is NO WARRANTY, to the extent permitted by law.
+# GNU Make 3.81
+# Copyright (C) 2006  Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.
+# There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
 
-# Make data base, printed on Wed Jun 28 15:29:26 2023
+# This program built for i386-apple-darwin11.3.0
+ 
+
+# Make data base, printed on Sat Jul  8 16:26:14 2023
 
 # Variables
 
-# environment
-LC_ALL = C
-# environment
-VSCODE_CWD = /u/halle/gaertnep/home_at
-# environment
-UBUNTU_MENUPROXY = 1
-# default
-MAKE_COMMAND := make
-# environment
-VSCODE_HANDLES_SIGPIPE = true
 # automatic
-@D = $(patsubst %/,%,$(dir $@))
-# environment
-VSCODE_HANDLES_UNCAUGHT_ERRORS = true
-# default
-.VARIABLES := 
-# environment
-PWD = /u/halle/gaertnep/home_at/GRA/team223/Implementierung
+<D = $(patsubst %/,%,$(dir $<))
 # automatic
-%D = $(patsubst %/,%,$(dir $%))
+?F = $(notdir $?)
 # environment
-XDG_DATA_DIRS = /u/halle/gaertnep/home_at/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
-# automatic
-^D = $(patsubst %/,%,$(dir $^))
-# automatic
-%F = $(notdir $%)
+OPAM_SWITCH_PREFIX = /Users/theuser/.opam/5.0.0
 # environment
-LANG = C
-# default
-.LOADED := 
-# default
-.INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
-# makefile
-MAKEFLAGS = pqrR
-# makefile
-CURDIR := /u/halle/gaertnep/home_at/GRA/team223/Implementierung
+OCAML_TOPLEVEL_PATH = /Users/theuser/.opam/5.0.0/lib/toplevel
+ 
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
-# automatic
-*D = $(patsubst %/,%,$(dir $*))
+VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
 # environment
-MFLAGS = -pqrR
-# default
-.SHELLFLAGS := -c
-# automatic
-+D = $(patsubst %/,%,$(dir $+))
-# makefile (from 'Makefile', line 1)
-MAKEFILE_LIST := Makefile
-# automatic
-@F = $(notdir $@)
-# environment
-XDG_SESSION_TYPE = tty
+NVM_INC = /Users/theuser/.nvm/versions/node/v20.1.0/include/node
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
-*F = $(notdir $*)
-# environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/7676/bus
+@D = $(patsubst %/,%,$(dir $@))
 # automatic
-<D = $(patsubst %/,%,$(dir $<))
-# environment
-VSCODE_NLS_CONFIG = {"locale":"en","osLocale":"en","availableLanguages":{}}
-# default
-MAKE_HOST := x86_64-pc-linux-gnu
+@F = $(notdir $@)
+# makefile
+CURDIR := /Users/theuser/Developer/TUM/GRA Proj/team223/Implementierung
 # makefile
 SHELL = /bin/sh
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","osLocale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# environment
+_ = /usr/bin/make
+# makefile (from `Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# environment
+__CFBundleIdentifier = com.microsoft.VSCodeInsiders
+# environment
+VSCODE_CWD = /
+# environment
+PATH = /Users/theuser/.opam/5.0.0/bin:/Users/theuser/.nvm/versions/node/v20.1.0/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Users/theuser/FlutterDev/flutter/bin
+# environment
+NVM_BIN = /Users/theuser/.nvm/versions/node/v20.1.0/bin
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# default
+.FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
+# environment
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.FIuO6uAXMQ/Listeners
+# automatic
+%F = $(notdir $%)
+# environment
+PWD = /Users/theuser/Developer/TUM/GRA Proj/team223/Implementierung
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+MANPATH = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/share/man:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/usr/share/man:/Applications/Xcode.app/Contents/Developer/usr/share/man:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/man:
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /Users/theuser
+# default
+MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
+# environment
+VSCODE_CODE_CACHE_PATH = /Users/theuser/Library/Application Support/Code - Insiders/CachedData/c1bca6d7cc2c5f71ae04deda90c0cf50819ffde4
+# environment
+LOGNAME = theuser
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+NVM_CD_FLAGS = -q
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+XPC_FLAGS = 0x0
+# default
+MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
 SHLVL = 1
-# environment
-MAKELEVEL := 0
 # default
-MAKE = $(MAKE_COMMAND)
+MAKE_VERSION := 3.81
 # environment
-PATH = /u/halle/gaertnep/home_at/.vscode-server/bin/695af097c7bd098fbf017ce3ac85e09bbc5dda06/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/applic/bin:/mount/dist/bin:/usr/games:/usr/local/games:/snap/bin:/opt/ghc/bin:/opt/cabal/bin:/opt/ghc/bin:/opt/cabal/bin
-# default
-MAKEFILES := 
+USER = theuser
 # environment
-MOTD_SHOWN = pam
-# automatic
-^F = $(notdir $^)
-# environment
-SSH_CLIENT = 131.159.217.192 60170 22
-# automatic
-?F = $(notdir $?)
-# automatic
-+F = $(notdir $+)
-# 'override' directive
-GNUMAKEFLAGS := 
-# environment
-BROWSER = /u/halle/gaertnep/home_at/.vscode-server/bin/695af097c7bd098fbf017ce3ac85e09bbc5dda06/bin/helpers/browser.sh
-# environment
-LOGNAME = gaertnep
+CAML_LD_LIBRARY_PATH = /Users/theuser/.opam/5.0.0/lib/stublibs:/Users/theuser/.opam/5.0.0/lib/ocaml/stublibs:/Users/theuser/.opam/5.0.0/lib/ocaml
 # makefile
 .DEFAULT_GOAL := all
-# environment
-USER = gaertnep
-# environment
-GTK_MODULES = appmenu-gtk-module:appmenu-gtk-module
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
 # default
-MAKE_VERSION := 4.3
-# environment
-VSCODE_AGENT_FOLDER = /u/halle/gaertnep/home_at/.vscode-server
-# environment
-_ = /u/halle/gaertnep/home_at/.vscode-server/bin/695af097c7bd098fbf017ce3ac85e09bbc5dda06/node
-# environment
-XDG_RUNTIME_DIR = /run/user/7676
-# environment
-VSCODE_IPC_HOOK_CLI = /run/user/7676/vscode-ipc-0effe7e2-242f-45bb-9270-fd55df54c6d0.sock
-# environment
-XDG_SESSION_CLASS = user
-# environment
-VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
-# environment
-HOME = /u/halle/gaertnep/home_at
-# environment
-ELECTRON_RUN_AS_NODE = 1
-# environment
-XDG_SESSION_ID = 30438
+MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
 # default
-.RECIPEPREFIX := 
+.VARIABLES := 
+# environment
+TMPDIR = /var/folders/b5/l5l6w2hs5xx_rty26wq9gsrw0000gn/T/
+# automatic
+*F = $(notdir $*)
+# environment
+VSCODE_IPC_HOOK = /Users/theuser/Library/Application Support/Code - Insiders/1.80-main.sock
+# environment
+MallocNanoZone = 0
+# makefile
+MAKEFLAGS = Rrqp
+# environment
+MFLAGS = -Rrqp
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+NVM_DIR = /Users/theuser/.nvm
+# environment
+XPC_SERVICE_NAME = application.com.microsoft.VSCodeInsiders.35996297.35996303
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# automatic
++F = $(notdir $+)
+# environment
+__CF_USER_TEXT_ENCODING = 0x1F5:0x0:0x0
+# environment
+COMMAND_MODE = unix2003
+# default
+MAKEFILES := 
 # automatic
 <F = $(notdir $<)
+# environment
+LC_ALL = C
+# automatic
+^F = $(notdir $^)
 # default
 SUFFIXES := 
 # default
-.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
+.INCLUDE_DIRS = /usr/local/include
 # environment
-SSH_CONNECTION = 131.159.217.192 60170 131.159.76.9 22
+MAKELEVEL := 0
+# environment
+LANG = C
+# environment
+VSCODE_PID = 96876
 # variable set hash-table stats:
-# Load=65/1024=6%, Rehash=0, Collisions=2/98=2%
+# Load=67/1024=7%, Rehash=0, Collisions=1/91=1%
 
 # Pattern-specific Variable Values
 
@@ -149,9 +156,10 @@ SSH_CONNECTION = 131.159.217.192 60170 131.159.76.9 22
 
 # Directories
 
-# . (device 57, inode 304669469): 6 files, no impossibilities.
+ 
+# . (device 16777234, inode 32258080): 9 files, no impossibilities.
 
-# 6 files, no impossibilities in 1 directories.
+# 9 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -159,70 +167,14 @@ SSH_CONNECTION = 131.159.217.192 60170 131.159.76.9 22
 
 # Files
 
-# Not a target:
-Makefile:
-#  Implicit rule search has been done.
-#  Last modified 2023-06-15 14:54:45.020094728
-#  File has been updated.
-#  Successfully updated.
-
-clean:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 5):
-	rm -f zcurve
-	rm -f zcurve.ppm
-	rm -f zcurve.svg
-
-# Not a target:
-.DEFAULT:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-Z_Curve.c:
-#  Implicit rule search has been done.
-#  Last modified 2023-06-28 15:19:40.428928816
-#  File has been updated.
-#  Successfully updated.
-
 all: zcurve
-#  Command line target.
+#  Command-line target.
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has been updated.
-#  Needs to be updated (-q is set).
+#  Successfully updated.
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
-
-zcurve: Z_Curve.c
-#  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  File does not exist.
-#  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := zcurve
-# automatic
-# * := 
-# automatic
-# < := Z_Curve.c
-# automatic
-# + := Z_Curve.c
-# automatic
-# % := 
-# automatic
-# ^ := Z_Curve.c
-# automatic
-# ? := Z_Curve.c
-# automatic
-# | := 
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/11=9%
-#  recipe to execute (from 'Makefile', line 3):
-	gcc -o zcurve Z_Curve.c -lm
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
 .SUFFIXES:
@@ -230,20 +182,64 @@ zcurve: Z_Curve.c
 #  Modification time never checked.
 #  File has not been updated.
 
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-16 17:25:24
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+zcurve: Z_Curve.c
+#  Implicit rule search has not been done.
+#  Last modified 2023-06-28 16:10:32
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 3):
+	gcc -o zcurve Z_Curve.c -lm
+	
+
+# Not a target:
+Z_Curve.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-28 16:10:04
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 5):
+	rm -f zcurve
+	rm -f zcurve.ppm
+	rm -f zcurve.svg
+	
+
 # files hash-table stats:
 # Load=7/1024=1%, Rehash=0, Collisions=0/22=0%
 # VPATH Search Paths
 
-# No 'vpath' search paths.
+# No `vpath' search paths.
 
-# No general ('VPATH' variable) search path.
+# No general (`VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 13 / storage = 109 B / avg = 8 B
-# current buf: size = 8162 B / used = 109 B / count = 13 / avg = 8 B
+# # of strings in strcache: 1
+# # of strcache buffers: 1
+# strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
+# strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# strcache performance: lookups = 24 / hit rate = 45%
-# hash-table stats:
-# Load=13/8192=0%, Rehash=0, Collisions=0/24=0%
-# Finished Make data base on Wed Jun 28 15:29:26 2023
+# Finished Make data base on Sat Jul  8 16:26:14 2023
 
  
