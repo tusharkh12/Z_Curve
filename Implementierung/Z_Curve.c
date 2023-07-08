@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <math.h>
-// #include <immintrin.h>
+#include <immintrin.h>
 
 typedef int coord_t;
 
@@ -139,10 +139,54 @@ void z_curve_morton(unsigned degree, coord_t* x, coord_t* y) {
     }
 }
 
+void z_curve_iterative_simd(unsigned degree, coord_t* x, coord_t* y){
+    //calculate the total number of points
+    //2^(2*degree)
+    unsigned total_points = 1 << (2 * degree);
+
+    //iterate over each point
+    for (unsigned i = 0; i < total_points; i += 4) {
+        //index and starting coordinate values of x and y for the current point
+        __m128i n = _mm_set_epi32(i + 3, i + 2, i + 1, i);
+        __m128i x2 = _mm_setzero_si128();
+        __m128i y2 = _mm_setzero_si128();
+
+        //calculate coordinates for current point
+        for (unsigned s = 0; s < degree; s++) {
+            //bitwise-or of x2 with the least significant bit of n
+            //which we get via (n & 1)
+            //this is then left-shifted by s positions
+            //basically the opposite of interleaving
+            //similar approach in z_curve_at2
+            __m128i n_and_1 = _mm_and_si128(n, _mm_set1_epi32(1));
+            __m128i x2_shifted = _mm_slli_epi32(n_and_1, s);
+            x2 = _mm_or_si128(x2, x2_shifted);
+
+            //bitwise-or of y2 with the second least significan bit of n
+            //which we get via (n & 2)
+            //which we then shift once to the right before again
+            //left-shifting by s positions
+            //basically the opposite of interleaving
+            //similar approach in z_curve_at2
+            __m128i n_and_2 = _mm_and_si128(n, _mm_set1_epi32(2));
+            __m128i y2_shifted = _mm_slli_epi32(_mm_srli_epi32(n_and_2, 1), s);
+            y2 = _mm_or_si128(y2, y2_shifted);
+
+            //discard the two bits used for x2 and y2 by shifting twice to the right
+            n = _mm_srli_epi32(n, 2);
+        }
+
+        //store the calculated coordinates
+        _mm_storeu_si128((__m128i*)(x + i), x2);
+        _mm_storeu_si128((__m128i*)(y + i), y2);
+    }
+
+}
+
 
 int main(int argc, char *argv[]) {
     //for testing purpose will be replaced with inputs later
-    unsigned testDegree = 15;
+    unsigned testDegree = 5;
     //coord_t testX = 0;
     //coord_t testY = 1;
     //3rd method test check
@@ -176,9 +220,10 @@ int main(int argc, char *argv[]) {
     float z;
     begin = clock();
 
-    z_curve(testDegree, x, y);
-    //z_curve_iterative(testDegree, x, y);
-    //z_curve_simd(testDegree, x, y);
+    z_curve_iterative_simd(testDegree, x, y);
+    // z_curve(testDegree, x, y);
+    // z_curve_iterative(testDegree, x, y);
+    // z_curve_simd(testDegree, x, y);
     // z_curve_morton(testDegree, x, y);
 
     //2nd method test check
