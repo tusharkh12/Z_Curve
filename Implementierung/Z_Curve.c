@@ -354,7 +354,12 @@ void z_curve_iterative_simd(unsigned degree, coord_t* x, coord_t* y){
 
 int main(int argc, char *argv[]) {
     //for testing purpose will be replaced with inputs later
-    unsigned testDegree = 5;
+    unsigned testDegree = 11;
+
+    float sum =0;
+
+//FOR CALCULATING AVG TIME
+    for(int k =0; k<20 ; k++){
     //coord_t testX = 0;
     //coord_t testY = 1;
     //3rd method test check
@@ -377,18 +382,23 @@ int main(int argc, char *argv[]) {
 
     //create image (SVG for now)
 
-    FILE* svgFile = fopen("zcurve.svg", "wb");
-    if (svgFile == NULL) {
-        printf("Error opening the SVG file.\n");
-        return -1;
-    }
+    // FILE* svgFile = fopen("zcurve.svg", "wb");
+    // if (svgFile == NULL) {
+    //     printf("Error opening the SVG file.\n");
+    //     return -1;
+    // }
+
+
+
+
 
     //clock setup (could prob be done cleaner)
     clock_t begin, end;
     float z;
     begin = clock();
 
-    z_curve_magic2(testDegree, x, y);
+    z_curve_magic_simd(testDegree, x, y);
+    // z_curve_magic2(testDegree, x, y);
     //z_curve_iterative_simd(testDegree, x, y);
     // z_curve(testDegree, x, y);
     // z_curve_iterative(testDegree, x, y);
@@ -412,21 +422,23 @@ int main(int argc, char *argv[]) {
     z /= CLOCKS_PER_SEC;
     if (z != 0) {
         printf("Runtime: %f seconds\n", z);
+        sum += z; 
     }
 
 
-    //to determine the width and height of the SVG Image we need to find min/max of x and y
-    coord_t scalingFactor = 10;
-    coord_t minX = x[0];
-    coord_t minY = y[0];
-    coord_t maxX = x[0];
-    coord_t maxY = y[0];
-    for (unsigned i = 1; i < numberOfPoints; i++) {
-        if (x[i] < minX) minX = x[i];
-        if (x[i] > maxX) maxX = x[i];
-        if (y[i] < minY) minY = y[i];
-        if (y[i] > maxY) maxY = y[i];
-    }
+
+    // //to determine the width and height of the SVG Image we need to find min/max of x and y
+    // coord_t scalingFactor = 10;
+    // coord_t minX = x[0];
+    // coord_t minY = y[0];
+    // coord_t maxX = x[0];
+    // coord_t maxY = y[0];
+    // for (unsigned i = 1; i < numberOfPoints; i++) {
+    //     if (x[i] < minX) minX = x[i];
+    //     if (x[i] > maxX) maxX = x[i];
+    //     if (y[i] < minY) minY = y[i];
+    //     if (y[i] > maxY) maxY = y[i];
+    // }
 
     //dimensions of the SVG image
     coord_t width = (maxX - minX + 1) * scalingFactor+100;
@@ -455,8 +467,10 @@ int main(int argc, char *argv[]) {
     //free allocated memory
     free(x);
     free(y);
-    fclose(svgFile);
-
+    // fclose(svgFile);
+    }
+    sum /=20;
+    printf("Average Runtime: %f seconds\n", sum);
     return 0;
 }
 
