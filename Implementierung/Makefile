@@ -1,6 +1,6 @@
 all: zcurve
 zcurve: Z_Curve.c
-	gcc -o zcurve Z_Curve.c -lm
+	gcc -o zcurve Z_Curve.c -O3
 clean:
 	rm -f zcurve
 	rm -f zcurve.ppm
