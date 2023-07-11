@@ -440,29 +440,29 @@ int main(int argc, char *argv[]) {
     //     if (y[i] > maxY) maxY = y[i];
     // }
 
-    //dimensions of the SVG image
-    coord_t width = (maxX - minX + 1) * scalingFactor+100;
-    coord_t height = (maxY - minY + 1) * scalingFactor;
+    // //dimensions of the SVG image
+    // coord_t width = (maxX - minX + 1) * scalingFactor+100;
+    // coord_t height = (maxY - minY + 1) * scalingFactor;
 
-    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\">\n", width, height); //header
+    // fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\">\n", width, height); //header
 
-    for (unsigned i = 0; i < numberOfPoints; i++) {
-        //adjust the coordinates by subtracting the minimum values
-        coord_t adjustedX1 = (x[i] - minX) * scalingFactor;
-        coord_t adjustedY1 = (y[i] - minY) * scalingFactor;
+    // for (unsigned i = 0; i < numberOfPoints; i++) {
+    //     //adjust the coordinates by subtracting the minimum values
+    //     coord_t adjustedX1 = (x[i] - minX) * scalingFactor;
+    //     coord_t adjustedY1 = (y[i] - minY) * scalingFactor;
 
-        //check if there is a next point to draw a line
-        if (i + 1 < numberOfPoints) {
-            coord_t adjustedX2 = (x[i + 1] - minX) * scalingFactor;
-            coord_t adjustedY2 = (y[i + 1] - minY) * scalingFactor;
+    //     //check if there is a next point to draw a line
+    //     if (i + 1 < numberOfPoints) {
+    //         coord_t adjustedX2 = (x[i + 1] - minX) * scalingFactor;
+    //         coord_t adjustedY2 = (y[i + 1] - minY) * scalingFactor;
 
-            fprintf(svgFile, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"black\" />\n",
-                    adjustedX1, adjustedY1, adjustedX2, adjustedY2);
-        }
-    }
+    //         fprintf(svgFile, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"black\" />\n",
+    //                 adjustedX1, adjustedY1, adjustedX2, adjustedY2);
+    //     }
+    // }
 
 
-    fprintf(svgFile, "</svg>"); //footer
+    // fprintf(svgFile, "</svg>"); //footer
 
     //free allocated memory
     free(x);
