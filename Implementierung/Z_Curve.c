@@ -21,6 +21,9 @@ size_t z_curve_pos(unsigned degree, coord_t x, coord_t y);
 coord_t ReversePart1By1(coord_t z);
 coord_t Part1By1(coord_t x);
 __m128i ReversePart1By1_simd(__m128i z);
+void tester();
+void tester2();
+void tester3();
 
 
 void z_curve_at2(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
@@ -54,14 +57,16 @@ void z_curve_at_magic(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
     coord_t x1;
     coord_t y1;
     y1 = (idx >> 1) & B[0];
-    y1 = (y1 | (y1 >> S[0])) & B[1];
-    y1 = (y1 | (y1 >> S[1])) & B[2];
-    y1 = (y1 | (y1 >> S[2])) & B[3];
+    y1 = (y1 | (y1 >> S[1])) & B[1];
+    y1 = (y1 | (y1 >> S[2])) & B[2];
+    y1 = (y1 | (y1 >> S[3])) & B[3];
+    y1 = (y1 | (y1 >> S[4])) & B[4];
 
     x1 = idx & B[0];
-    x1 = (x1 | (x1 >> S[0])) & B[1];
-    x1 = (x1 | (x1 >> S[1])) & B[2];
-    x1 = (x1 | (x1 >> S[2])) & B[3];
+    x1 = (x1 | (x1 >> S[1])) & B[1];
+    x1 = (x1 | (x1 >> S[2])) & B[2];
+    x1 = (x1 | (x1 >> S[3])) & B[3];
+    x1 = (x1 | (x1 >> S[4])) & B[4];
 
     *x = x1;
     *y = y1;
@@ -114,15 +119,17 @@ size_t z_curve_pos3(unsigned degree, coord_t x, coord_t y) {
 
 size_t z_curve_pos_magic(unsigned degree, coord_t x, coord_t y) {
     //still needs testing
-    x = (x | (x << S[3])) & B[3];
-    x = (x | (x << S[2])) & B[2];
-    x = (x | (x << S[1])) & B[1];
-    x = (x | (x << S[0])) & B[0];
+    x = (x | (x << S[0])) & B[4];
+    x = (x | (x << S[4])) & B[3];
+    x = (x | (x << S[3])) & B[2];
+    x = (x | (x << S[2])) & B[1];
+    x = (x | (x << S[1])) & B[0];
 
-    y = (y | (y << S[3])) & B[3];
-    y = (y | (y << S[2])) & B[2];
-    y = (y | (y << S[1])) & B[1];
-    y = (y | (y << S[0])) & B[0];
+    y = (y | (y << S[0])) & B[4];
+    y = (y | (y << S[4])) & B[3];
+    y = (y | (y << S[3])) & B[2];
+    y = (y | (y << S[2])) & B[1];
+    y = (y | (y << S[1])) & B[0];
 
     degree = x | (y << 1);
     return degree;
@@ -143,45 +150,11 @@ size_t z_curve_pos_magic2(unsigned degree, coord_t x, coord_t y) {
     return degree;
 } 
 
-void z_curve_morton(unsigned degree, coord_t* x, coord_t* y) {
-    // calculate the total number of points
-    // 2^(2*degree)
-    unsigned total_points = 1 << (2 * degree);
-
-    // iterate over each point
-    for (unsigned i = 0; i < total_points; i++) {
-        // calculate Morton code (Z-curve)
-        unsigned x2 = 0;
-        unsigned y2 = 0;
-
-        for (unsigned bit = 0; bit < degree; bit++) {
-            x2 |= (i & (1 << (2 * bit))) >> bit;
-            y2 |= (i & (1 << (2 * bit + 1))) >> (bit + 1);
-        }
-
-        // store the calculated coordinates
-        x[i] = x2;
-        y[i] = y2;
-    }
-}
-
-
 void z_curve_magic(unsigned degree, coord_t* x, coord_t* y) {
     unsigned total_points = 1 << (2 * degree);
     coord_t x1;
     coord_t y1;
     for (unsigned i = 0; i < total_points; i ++) {
-        // y1 = (i >> 1) & B[0];
-        // y1 = (y1 | (y1 >> S[1])) & B[1];
-        // y1 = (y1 | (y1 >> S[2])) & B[2];
-        // y1 = (y1 | (y1 >> S[3])) & B[3];
-
-
-        // x1 = i & B[0];
-        // x1 = (x1 | (x1 >> S[1])) & B[1];
-        // x1 = (x1 | (x1 >> S[2])) & B[2];
-        // x1 = (x1 | (x1 >> S[3])) & B[3];
-
         y1 = (i >> 1) & B[0];
         y1 = (y1 | (y1 >> S[1])) & B[1];
         y1 = (y1 | (y1 >> S[2])) & B[2];
@@ -201,7 +174,6 @@ void z_curve_magic(unsigned degree, coord_t* x, coord_t* y) {
     }
 }
 
-
 void z_curve_magic2(unsigned degree, coord_t* x, coord_t* y) {
     unsigned total_points = 1 << (2 * degree);
 
@@ -210,7 +182,6 @@ void z_curve_magic2(unsigned degree, coord_t* x, coord_t* y) {
         y[i] = ReversePart1By1((i >> 1) & 0x55555555);
     }
 }
-
 
 void z_curve_magic_simd(unsigned degree, coord_t* x, coord_t* y) {
     unsigned total_points = 1 << (2 * degree);
@@ -323,230 +294,6 @@ void z_curve_iterative_simd(unsigned degree, coord_t* x, coord_t* y){
 
 }
 
-void print_usage() {
-    // Output a description of all program options and usage examples
-    printf("Usage:\n");
-    printf("  ./z_curve_program [-V<number>] [-B<number>] [-d<number>] <number> <number> [-p] [-i<number>] [-a] [-h] [--help]\n");
-    printf("Options:\n");
-    printf("  -V<number>     The implementation to use (default: 0)\n");
-    printf("  -B<number>     Measure and output the runtime of the specified implementation\n");
-    printf("  -d<number>     Degree of the Z-curve to construct\n");
-    printf("  <number>       Positional argument: x\n");
-    printf("  <number>       Positional argument: y\n");
-    printf("  -p             Call z_curve_pos function\n");
-    printf("  -i<number>     idx\n");
-    printf("  -a             Call z_curve_at function\n");
-    printf("  -h             Display help\n");
-    printf("  --help         Display help\n");
-}
-
-void rahmenProgram_helper( unsigned implementation ,unsigned repetitions,unsigned degree,coord_t* xCoords,
-                           coord_t* yCoords,int measure_runtime){
-    for (int i = 0; i <= repetitions; i++) {
-       
-        struct timespec start, end;
-        float z;
-        clock_gettime(CLOCK_MONOTONIC, &start);
-
-
-        switch (implementation) {
-            case 0:
-                //z_curve_magic_simd(degree, xCoords, yCoords);
-                //z_curve_magic(degree, xCoords, yCoords);
-                z_curve_magic2_simd(degree, xCoords, yCoords);
-                
-                break;
-                // Handle other implementation cases
-            default:
-                // ...
-                break;
-        }
-
-                if(measure_runtime) {
-//              
-            clock_gettime(CLOCK_MONOTONIC, &end);
-            double elapsed_time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-            printf("Runtime: %.9f seconds\n", elapsed_time);
-
-        }
-
-
-       
-      
-
-    }
-}
-
-void rahmen_svg(coord_t* xCoords, coord_t* yCoords,unsigned numberOfPoints){
-  
-    FILE* svgFile = fopen("zcurve.svg", "wb");
-    if (svgFile == NULL) {
-        printf("Error opening the SVG file.\n");
-        return ;
-    }
-
-    coord_t scalingFactor = 10;
-    coord_t minX = xCoords[0];
-    coord_t minY = yCoords[0];
-    coord_t maxX = xCoords[0];
-    coord_t maxY = yCoords[0];
-    for (unsigned i = 1; i < numberOfPoints; i++) {
-        if (xCoords[i] < minX) minX = xCoords[i];
-        if (xCoords[i] > maxX) maxX = xCoords[i];
-        if (yCoords[i] < minY) minY = yCoords[i];
-        if (yCoords[i] > maxY) maxY = yCoords[i];
-    }
-    coord_t width = (maxX - minX + 1) * scalingFactor ;
-    coord_t height = (maxY - minY + 1) * scalingFactor;
-
-    // Write the SVG header
-    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\">\n", width, height);
-
-    // Write the lines representing the Z curve
-    for (unsigned i = 0; i < numberOfPoints - 1; i++) {
-        coord_t adjustedX1 = (xCoords[i] - minX) * scalingFactor;
-        coord_t adjustedY1 = (yCoords[i] - minY) * scalingFactor;
-        coord_t adjustedX2 = (xCoords[i + 1] - minX) * scalingFactor;
-        coord_t adjustedY2 = (yCoords[i + 1] - minY) * scalingFactor;
-        fprintf(svgFile, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"black\" />\n",
-                adjustedX1, adjustedY1, adjustedX2, adjustedY2);
-    }
-
-    // Write the SVG footer
-    fprintf(svgFile, "</svg>");
-
-    // Close the SVG file and free the allocated memory
-    fclose(svgFile);
-
-  
-}
-
-
-void rahmenProgram(int argc, char *argv[]){
-    unsigned implementation = 0;  // Default implementation set to 0
-    unsigned repetitions = 0;     // Default repetitions set to 0
-    unsigned degree = 1;          // Default degree set to 1
-    coord_t x = 0;                // Default x set to 0
-    coord_t y = 0;                // Default y set to 0
-    int call_z_curve_pos = 0;     // Default call_z_curve_pos set to 0
-    unsigned idx = 0;             // Default idx set to 0
-    int call_z_curve_at = 0;      // Default call_z_curve_at set to 0
-    int measure_runtime = 0;      // Flag to indicate if runtime measurement is enabled
-
-
-    // Parse command-line arguments
-    int opt;
-    while ((opt = getopt(argc, argv, "V:B:d:pi:ah")) != -1) {
-        switch (opt) {
-            case 'V':
-                implementation = atoi(optarg);
-                break;
-            case 'B':
-                repetitions = atoi(optarg);
-                measure_runtime = 1; // Set the flag for runtime measurement
-                break;
-            case 'd':
-                degree = atoi(optarg);
-                break;
-            case 'p':
-                call_z_curve_pos = 1;
-                break;
-            case 'i':
-                idx = atoi(optarg);
-                break;
-            case 'a':
-                call_z_curve_at = 1;
-                break;
-            case 'h':
-                print_usage();
-                return ;
-            default:
-                fprintf(stderr, "Invalid option\n");
-                print_usage();
-                return ;
-        }
-    }
-
-    // Handle missing options and positional arguments
-    //    if (argc - optind < 2) {
-//        fprintf(stderr, "Missing positional arguments\n");
-//        print_usage();
-//        return 1;
-//    }
-
-
-
-    // Assign positional arguments to x and y
-    x = atoi(argv[optind]);
-    y = atoi(argv[optind + 1]);
-
-
-   // unsigned numberOfPoints = pow(2,(2 * degree));
-    unsigned numberOfPoints = 1 << (2 * degree);
-
-    ////2nd method check
-
-    if ((idx >= numberOfPoints && call_z_curve_at == 1) || (idx < 0 && call_z_curve_at == 1)) {
-        printf("Invalid index for z_curve_at method: %s\n", "ERROR");
-        fprintf(stderr, "Wrong index arguments\n");
-        print_usage();
-        return ;
-    }
-
-    ////3rd method check
-    unsigned checkX = (1 << degree) - 1;
-    checkX=checkX-1;
-    unsigned checkY = (1 << degree) - 1;
-    // pow(2,degree);
-    checkY=checkY-1;
-    if(call_z_curve_pos) {
-        if (x>checkX || x < 0 || y>checkY || y < 0) {
-            printf("Invalid coordinates for z_curve_pos method: %s\n", "ERROR");
-            fprintf(stderr, "Wrong coordinates arguments\n");
-            print_usage();
-            return;
-        }
-    }
-
-
-
-
-    // Call the appropriate functions based on the options
-    if (call_z_curve_pos) {
-        size_t index = z_curve_pos(degree, x, y);
-        printf("Z-curve index: %zu\n", index);
-    }
-    // Generate the SVG file of the Z curves
-
-    coord_t coordX, coordY;
-
-    if (call_z_curve_at) {
-        z_curve_at(degree, idx, &coordX, &coordY);
-        printf("Z-curve coordinates: (%d, %d)\n", x, y);
-    }
-
-    coord_t* xCoords = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
-    coord_t* yCoords = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
-
-
-    // Call the appropriate implementation based on the specified option
-    rahmenProgram_helper(  implementation , repetitions, degree, xCoords, yCoords,measure_runtime);
-    rahmen_svg(xCoords, yCoords,numberOfPoints);
-
-    // Calculate the dimensions of the SVG image
-  
-
-    // Open the SVG file for writing
-
-
-    free(xCoords);
-    free(yCoords);
-
-
-}
-
-
-
 void svgGenerator(unsigned numberOfPoints, coord_t* x, coord_t* y){
 
     FILE* svgFile = fopen("zcurve.svg", "wb");
@@ -606,14 +353,15 @@ float timeTester(unsigned testDegree, coord_t* x, coord_t* y){
     clock_gettime(CLOCK_MONOTONIC, &begin);
 
 
+
     // z_curve_magic(testDegree, x, y);
     //z_curve_magic2(testDegree, x, y);
-    // z_curve_magic_simd(testDegree, x, y);
-//    z_curve_iterative_simd(testDegree, x, y);
-    // z_curve(testDegree, x, y);
-    // z_curve_iterative(testDegree, x, y);
-    z_curve_morton(testDegree, x, y);
-    // z_curve_magic2_simd(testDegree,x,y);
+     //z_curve_magic_simd(testDegree, x, y);
+    //z_curve_iterative_simd(testDegree, x, y);
+    //z_curve(testDegree, x, y);
+     z_curve_iterative(testDegree, x, y);
+    //z_curve_morton(testDegree, x, y);
+    //z_curve_magic2_simd(testDegree,x,y);
 
     clock_gettime(CLOCK_MONOTONIC, &end);
 
@@ -629,27 +377,219 @@ float timeTester(unsigned testDegree, coord_t* x, coord_t* y){
     return sum;
 }
 
-void tester(int degree) {
+void print_usage() {
+    // Output a description of all program options and usage examples
+    printf("Usage:\n");
+    printf("  ./z_curve_program [-V<number>] [-B<number>] [-d<number>] <number> <number> [-p] [-i<number>] [-a] [-h] [--help]\n");
+    printf("Options:\n");
+    printf("  -V<number>     The implementation to use (default: 0)\n");
+    printf("  -B<number>     Measure and output the runtime of the specified implementation\n");
+    printf("  -d<number>     Degree of the Z-curve to construct\n");
+    printf("  <number>       Positional argument: x\n");
+    printf("  <number>       Positional argument: y\n");
+    printf("  -p             Call z_curve_pos function\n");
+    printf("  -i<number>     idx\n");
+    printf("  -a             Call z_curve_at function\n");
+    printf("  -h             Display help\n");
+    printf("  --help         Display help\n");
+}
+
+void rahmenProgram_helper( unsigned implementation ,unsigned repetitions,unsigned degree,coord_t* xCoords,
+                           coord_t* yCoords,int measure_runtime){
+    for (int i = 0; i <= repetitions; i++) {
+       
+        struct timespec start, end;
+        float z;
+        clock_gettime(CLOCK_MONOTONIC, &start);
+
+
+        switch (implementation) {
+            case 0:
+                //z_curve_magic_simd(degree, xCoords, yCoords);
+                //z_curve_magic(degree, xCoords, yCoords);
+                z_curve_magic2_simd(degree, xCoords, yCoords);  
+                break;
+                // Handle other implementation cases
+            default:
+                // ...
+                break;
+        }
+
+        clock_gettime(CLOCK_MONOTONIC, &end);
+
+        if(measure_runtime) {   
+            double elapsed_time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
+            printf("Runtime: %.9f seconds\n", elapsed_time);
+        }
+    }
+}
+
+void rahmen_svg(coord_t* xCoords, coord_t* yCoords,unsigned numberOfPoints){
+  
+    FILE* svgFile = fopen("zcurve.svg", "wb");
+    if (svgFile == NULL) {
+        printf("Error opening the SVG file.\n");
+        return ;
+    }
+
+    coord_t scalingFactor = 10;
+    coord_t minX = xCoords[0];
+    coord_t minY = yCoords[0];
+    coord_t maxX = xCoords[0];
+    coord_t maxY = yCoords[0];
+    for (unsigned i = 1; i < numberOfPoints; i++) {
+        if (xCoords[i] < minX) minX = xCoords[i];
+        if (xCoords[i] > maxX) maxX = xCoords[i];
+        if (yCoords[i] < minY) minY = yCoords[i];
+        if (yCoords[i] > maxY) maxY = yCoords[i];
+    }
+    coord_t width = (maxX - minX + 1) * scalingFactor ;
+    coord_t height = (maxY - minY + 1) * scalingFactor;
+
+    // Write the SVG header
+    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\">\n", width, height);
+
+    // Write the lines representing the Z curve
+    for (unsigned i = 0; i < numberOfPoints - 1; i++) {
+        coord_t adjustedX1 = (xCoords[i] - minX) * scalingFactor;
+        coord_t adjustedY1 = (yCoords[i] - minY) * scalingFactor;
+        coord_t adjustedX2 = (xCoords[i + 1] - minX) * scalingFactor;
+        coord_t adjustedY2 = (yCoords[i + 1] - minY) * scalingFactor;
+        fprintf(svgFile, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"black\" />\n",
+                adjustedX1, adjustedY1, adjustedX2, adjustedY2);
+    }
+
+    // Write the SVG footer
+    fprintf(svgFile, "</svg>");
+
+    // Close the SVG file and free the allocated memory
+    fclose(svgFile);
+
+  
+}
+
+void rahmenProgram(int argc, char *argv[]){
+    unsigned implementation = 0;  // Default implementation set to 0
+    unsigned repetitions = 0;     // Default repetitions set to 0
+    unsigned degree = 1;          // Default degree set to 1
+    coord_t x = 0;                // Default x set to 0
+    coord_t y = 0;                // Default y set to 0
+    int call_z_curve_pos = 0;     // Default call_z_curve_pos set to 0
+    unsigned idx = 0;             // Default idx set to 0
+    int call_z_curve_at = 0;      // Default call_z_curve_at set to 0
+    int measure_runtime = 0;      // Flag to indicate if runtime measurement is enabled
+
+
+    // Parse command-line arguments
+    int opt;
+    while ((opt = getopt(argc, argv, "V:B:d:pi:ah")) != -1) {
+        switch (opt) {
+            case 'V':
+                implementation = atoi(optarg);
+                break;
+            case 'B':
+                repetitions = atoi(optarg);
+                measure_runtime = 1; // Set the flag for runtime measurement
+                break;
+            case 'd':
+                degree = atoi(optarg);
+                break;
+            case 'p':
+                call_z_curve_pos = 1;
+                break;
+            case 'i':
+                idx = atoi(optarg);
+                break;
+            case 'a':
+                call_z_curve_at = 1;
+                break;
+            case 'h':
+                print_usage();
+                return ;
+            default:
+                fprintf(stderr, "Invalid option\n");
+                print_usage();
+                return ;
+        }
+    }
+
+    // Assign positional arguments to x and y
+    x = atoi(argv[optind]);
+    y = atoi(argv[optind + 1]);
+
+
+    unsigned numberOfPoints = 1 << (2 * degree);
+
+    ////2nd method check
+
+    if ((idx >= numberOfPoints && call_z_curve_at == 1) || (idx < 0 && call_z_curve_at == 1)) {
+        printf("Invalid index for z_curve_at method: %s\n", "ERROR");
+        fprintf(stderr, "Wrong index arguments\n");
+        print_usage();
+        return ;
+    }
+
+    ////3rd method check
+    unsigned checkX = 1 << degree;
+    checkX=checkX-1;
+    unsigned checkY = 1 << degree;
+    checkY=checkY-1;
+    if(call_z_curve_pos) {
+        if (x>checkX || x < 0 || y>checkY || y < 0) {
+            printf("Invalid coordinates for z_curve_pos method: %s\n", "ERROR");
+            fprintf(stderr, "Wrong coordinates arguments\n");
+            print_usage();
+            return;
+        }
+    }
+
+
+    // Call the appropriate functions based on the options
+    if (call_z_curve_pos) {
+        size_t index = z_curve_pos(degree, x, y);
+        printf("Z-curve index: %zu\n", index);
+    }
+
+    // Generate the SVG file of the Z curves
+
+    coord_t coordX, coordY;
+
+    if (call_z_curve_at) {
+        z_curve_at(degree, idx, &coordX, &coordY);
+        printf("Z-curve coordinates: (%d, %d)\n", x, y);
+    }
+
+    coord_t* xCoords = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
+    coord_t* yCoords = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
+
+
+    // Call the appropriate implementation based on the specified option
+    rahmenProgram_helper(  implementation , repetitions, degree, xCoords, yCoords,measure_runtime);
+    rahmen_svg(xCoords, yCoords,numberOfPoints);
+
+    free(xCoords);
+    free(yCoords);
+}
+
+void tester() {
+    for (int degree; degree <16; degree ++) {
     unsigned numberOfPoints = 1 << (2 * degree);
     coord_t* x1 = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
     coord_t* y1 = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
     coord_t* x2 = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
     coord_t* y2 = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
 
-
     z_curve(degree, x1, y1);
     
-    
-
-    for(int k = 0; k < 20 ; k++){
     //correct
-    //z_curve_magic(degree, x2, y2);
-    //z_curve_magic2(degree, x2, y2);
-    z_curve_magic_simd(degree, x2, y2);
-    //z_curve_magic2_simd(degree, x2, y2);
-    //z_curve_iterative_simd(degree, x2, y2);
-    //z_curve_iterative(degree, x2, y2);
-    //z_curve_morton(degree, x2, y2);
+    for(int k = 0; k < 20 ; k++){
+    //z_curve_magic(degree, x2, y2); //safe2
+    //z_curve_magic2(degree, x2, y2); //safe2
+    //z_curve_magic_simd(degree, x2, y2); //safe2
+    //z_curve_magic2_simd(degree, x2, y2); //safe2
+    //z_curve_iterative(degree, x2, y2); //safe2
+    //z_curve_iterative_simd(degree, x2, y2); //safe2
+    z_curve(degree, x2, y2); //safe2
     }
 
     int xcounter = 0;
@@ -665,15 +605,11 @@ void tester(int degree) {
     }
 
 
-    printf("x: %d\ny: %d\n", xcounter, ycounter);
+    printf("Degree: %d\nx: %d\ny: %d\n", degree, xcounter, ycounter);
+    }
 }
 
-
-
-int main(int argc, char *argv[]) {
-    // tester(2);
-    // return 0;
-    //for testing purpose will be replaced with inputs later
+void tester2(){
     unsigned testDegree = 1;
     while(testDegree < 16){
     //calculate number of points based on degree
@@ -683,48 +619,17 @@ int main(int argc, char *argv[]) {
     coord_t* x = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
     if (x == NULL) {
         printf("Could not allocate that much memory for x");
-        return -1;
+        //return -1;
     };
+
     coord_t* y = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
     if (y == NULL) {
         printf("Could not allocate that much memory for y");
-        return -1;
+        //return -1;
     };
 
-    // float sum =0;
-    
+    double sum = timeTester(testDegree, x, y);
 
-
-// //FOR CALCULATING AVG TIME
-//     for(int k = 0; k < 20 ; k++){
-//     //clock setup
-//     struct timespec begin, end;
-//     float z;
-//     clock_gettime(CLOCK_MONOTONIC, &begin);
-
-
-
-//     // z_curve_magic(testDegree, x, y);
-//     //z_curve_magic2(testDegree, x, y);
-//     z_curve_magic_simd(testDegree, x, y);
-//    // z_curve_iterative_simd(testDegree, x, y);
-//     // z_curve(testDegree, x, y);
-//     //z_curve_iterative(testDegree, x, y);
-//     //z_curve_morton(testDegree, x, y);
-//     // z_curve_magic2_simd(testDegree,x,y);
-
-//     clock_gettime(CLOCK_MONOTONIC, &end);
-
-//     z = (end.tv_sec - begin.tv_sec) + (end.tv_nsec - begin.tv_nsec) / 1e9;
-
-//     if (z != 0) {
-//         printf("Runtime: %f seconds\n", z);
-//         sum += z;
-//     }
-
-//     }
-double sum = timeTester(testDegree, x, y);
-// svgGenerator(numberOfPoints, x, y);
     free(x);
     free(y);
     sum /=20;
@@ -732,10 +637,12 @@ double sum = timeTester(testDegree, x, y);
     printf(" %.10f seconds\n", sum);
     testDegree++;
 }
+}
+int main(int argc, char *argv[]) {
+    //rahmenProgram(argc, argv);
+    tester3();
     return 0;
 }
-
-
 
 void z_curve_iterative(unsigned degree, coord_t* x, coord_t* y) {
     //calculate the total number of points
@@ -806,7 +713,6 @@ void z_curve_recursive(unsigned degree, coord_t start_x, coord_t start_y, coord_
     z_curve_recursive(degree - 1, start_x + sub_size, start_y + sub_size, x, y, index);
 }
 
-
 //2nd METHOD
 void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
     // Calculate the number of points based on the degree
@@ -851,12 +757,11 @@ void z_curve_at(unsigned degree, size_t idx, coord_t* x, coord_t* y) {
 
 }
 
-
 //3rd METHOD
-
 size_t z_curve_pos(unsigned degree, coord_t x, coord_t y) {
     // Calculate the number of points based on the degree
     unsigned numberOfPoints =  1 << (2 * degree);
+    unsigned biggestCoordinate = (1 << degree) -1;
 
     // Allocate space for the coordinates
     coord_t* xCoords = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
@@ -873,7 +778,7 @@ size_t z_curve_pos(unsigned degree, coord_t x, coord_t y) {
             break;
         }
     }
-    if (degree < x || degree < y  || x<0 || y <0) {
+    if (biggestCoordinate < x || biggestCoordinate < y  || x<0 || y <0) {
         printf("Invalid coordinates: %s\n","ERROR");
 
     }
@@ -885,8 +790,35 @@ size_t z_curve_pos(unsigned degree, coord_t x, coord_t y) {
     return index;
 }
 
+void tester3(){
+    
+    for (int degree; degree <16; degree ++) {
+        unsigned numberOfPoints = 1 << (2 * degree);
+        coord_t* x1 = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
+        coord_t* y1 = (coord_t*)malloc(numberOfPoints * sizeof(coord_t));
+        coord_t* x2 = (coord_t*)malloc(1 * sizeof(coord_t));
+        coord_t* y2 = (coord_t*)malloc(1 * sizeof(coord_t));
+        z_curve_magic2_simd(degree, x1, y1);
+        int atCounter = 0;
+        int posCounter = 0;
+        for (size_t i = 0; i < numberOfPoints; i++) {
+            z_curve_at_magic2(degree, i, x2, y2);
+            if (x1[i] != x2[0]){
+                atCounter++;
+            }
+            if (y1[i] != y2[0]){
+                atCounter++;
+            }
 
+            if (i != z_curve_pos_magic2(degree, x1[i], y1[i])) {
+                posCounter++;
+            }
+        }
+         printf("Degree: %d\natCounter: %d\nposCounter: %d\n", degree, atCounter, posCounter);
+    }
+}
 
+   
 
 
 
