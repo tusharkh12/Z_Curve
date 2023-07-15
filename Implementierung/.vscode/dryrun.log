@@ -1,5 +1,5 @@
 make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/theuser/Developer/TUM/GRA Proj/team223/Implementierung'
-gcc -o zcurve Z_Curve.c -lm
-make: Leaving directory `/Users/theuser/Developer/TUM/GRA Proj/team223/Implementierung'
+make: Entering directory '/u/halle/gaertnep/home_at/GRA/team223/Implementierung'
+gcc -o zcurve Z_Curve.c -O3 -march=native
+make: Leaving directory '/u/halle/gaertnep/home_at/GRA/team223/Implementierung'
  
