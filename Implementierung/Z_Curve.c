@@ -1018,14 +1018,14 @@ void rahmenProgram(int argc, char *argv[]) {
     if(degree>16 || degree <0){
         printf("Invalid degree for z_curve method: %s\n", "ERROR");
         fprintf(stderr,"Allowed degrees for z_curve method are 0 to 15: %s\n\n", "ERROR");
-        print_usage();
+        //print_usage();
         return;
     }
 
      ////Repetitions Check
     if (repetitions < 0) {
         fprintf(stderr, "Invalid repetitions value\n");
-        print_usage();
+        //print_usage();
         return;
     }
 
@@ -1036,7 +1036,7 @@ void rahmenProgram(int argc, char *argv[]) {
         printf("Invalid index for z_curve_at method: %s\n", "ERROR");
         printf("Index should be between 0 to %u for degree %u\n",numberOfPoints-1,degree);
         fprintf(stderr, "Wrong index arguments\n\n");
-        print_usage();
+        //print_usage();
         return ;
     }
 
@@ -1050,7 +1050,7 @@ void rahmenProgram(int argc, char *argv[]) {
             printf("Invalid coordinates for z_curve_pos method: %s\n", "ERROR");
             printf("For degree %u :\n x should be between 0 to %u\n and y should be between 0 to %u\n",degree,checkX,checkY);
             fprintf(stderr, "Wrong coordinates arguments\n\n");
-            print_usage();
+            //print_usage();
             return;
         }
     }
