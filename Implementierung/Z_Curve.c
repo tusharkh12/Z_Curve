@@ -1047,6 +1047,13 @@ void rahmenProgram(int argc, char *argv[]) {
     checkX=checkX-1;
     unsigned checkY = 1 << (degree);
     checkY=checkY-1;
+    if (x>checkX || x < 0 || y>checkY || y < 0) {
+      //  printf("Invalid coordinates for z_curve_pos method: %s\n", "ERROR");
+        printf("For degree %u :\n x should be between 0 to %u\n and y should be between 0 to %u\n\n",degree,checkX,checkY);
+        fprintf(stderr, "Wrong coordinates arguments\n\n");
+        //print_usage();
+        return;
+    }
     if(call_z_curve_pos) {
         if (x>checkX || x < 0 || y>checkY || y < 0) {
             printf("Invalid coordinates for z_curve_pos method: %s\n", "ERROR");
