@@ -873,12 +873,7 @@ void addDefaultArgument(char *argv[], int *argc) {
     const char *defaultArg = "1";
     for (int i = 0; i < *argc; i++) {
         if (strcmp(argv[i], target) == 0) {
-            int nextArgIndex = i + 1;
-            // Check if the next argument(s) is empty or starts with a hyphen
-            while (nextArgIndex < *argc && (argv[nextArgIndex][0] == '-' || strlen(argv[nextArgIndex]) == 0)) {
-                nextArgIndex++;
-            }
-            if (nextArgIndex == *argc || argv[nextArgIndex][0] == '-') {
+            if (i == *argc - 1 || argv[i + 1][0] == '-') {
                 // Insert default argument after "-B"
                 int len = strlen(defaultArg);
                 char *newArg = (char *) malloc(len + 1);
