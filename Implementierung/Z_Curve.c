@@ -1034,7 +1034,7 @@ void rahmenProgram(int argc, char *argv[]) {
 
     if ((idx >= numberOfPoints && call_z_curve_at == 1) || (idx < 0 && call_z_curve_at == 1)) {
         printf("Invalid index for z_curve_at method: %s\n", "ERROR");
-        printf("Index should be between 0 to %u for degree %u\n",numberOfPoints-1,degree);
+        printf("Index should be between 0 to %u for degree %u\n\n",numberOfPoints-1,degree);
         fprintf(stderr, "Wrong index arguments\n\n");
         //print_usage();
         return ;
@@ -1048,7 +1048,7 @@ void rahmenProgram(int argc, char *argv[]) {
     if(call_z_curve_pos) {
         if (x>checkX || x < 0 || y>checkY || y < 0) {
             printf("Invalid coordinates for z_curve_pos method: %s\n", "ERROR");
-            printf("For degree %u :\n x should be between 0 to %u\n and y should be between 0 to %u\n",degree,checkX,checkY);
+            printf("For degree %u :\n x should be between 0 to %u\n and y should be between 0 to %u\n\n",degree,checkX,checkY);
             fprintf(stderr, "Wrong coordinates arguments\n\n");
             //print_usage();
             return;
