@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Jul 15 02:57:39 2023
+# Make data base, printed on Sun Jul 16 12:18:34 2023
 
 # Variables
 
@@ -32,8 +32,6 @@ PWD = /u/halle/gaertnep/home_at/GRA/team223/Implementierung
 %D = $(patsubst %/,%,$(dir $%))
 # environment
 XDG_DATA_DIRS = /u/halle/gaertnep/home_at/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
-# environment
-OLDPWD = /u/halle/gaertnep/home_at/.vscode-server/bin/74f6148eb9ea00507ec113ec51c489d6ffb4b771
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # automatic
@@ -95,7 +93,7 @@ MOTD_SHOWN = pam
 # automatic
 ^F = $(notdir $^)
 # environment
-SSH_CLIENT = 10.181.129.78 56774 22
+SSH_CLIENT = 62.216.214.250 40437 22
 # automatic
 ?F = $(notdir $?)
 # automatic
@@ -121,7 +119,7 @@ _ = /u/halle/gaertnep/home_at/.vscode-server/bin/74f6148eb9ea00507ec113ec51c489d
 # environment
 XDG_RUNTIME_DIR = /run/user/7676
 # environment
-VSCODE_IPC_HOOK_CLI = /run/user/7676/vscode-ipc-8de3b0b9-5ac0-484f-bbcd-3b8cb5a4e492.sock
+VSCODE_IPC_HOOK_CLI = /run/user/7676/vscode-ipc-acc21413-849a-49a1-ba0f-69c33d98c5eb.sock
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -131,17 +129,19 @@ HOME = /u/halle/gaertnep/home_at
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-XDG_SESSION_ID = 58312
+XDG_SESSION_ID = 63776
 # default
 .RECIPEPREFIX := 
 # automatic
 <F = $(notdir $<)
 # default
 SUFFIXES := 
+# environment
+DEBUG = WARN
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
 # environment
-SSH_CONNECTION = 10.181.129.78 56774 131.159.76.9 22
+SSH_CONNECTION = 62.216.214.250 40437 131.159.76.9 22
 # variable set hash-table stats:
 # Load=66/1024=6%, Rehash=0, Collisions=2/99=2%
 
@@ -151,9 +151,9 @@ SSH_CONNECTION = 10.181.129.78 56774 131.159.76.9 22
 
 # Directories
 
-# . (device 57, inode 304669469): 8 files, no impossibilities.
+# . (device 57, inode 304669469): 7 files, no impossibilities.
 
-# 8 files, no impossibilities in 1 directories.
+# 7 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -186,7 +186,7 @@ clean:
 # Not a target:
 Z_Curve.c:
 #  Implicit rule search has been done.
-#  Last modified 2023-07-15 02:57:36.451920046
+#  Last modified 2023-07-16 03:28:00.439320035
 #  File has been updated.
 #  Successfully updated.
 
@@ -202,7 +202,7 @@ all: zcurve
 zcurve: Z_Curve.c
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
-#  Last modified 2023-07-15 02:33:28.547615049
+#  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
@@ -243,9 +243,9 @@ zcurve: Z_Curve.c
 # strcache buffers: 1 (0) / strings = 14 / storage = 119 B / avg = 8 B
 # current buf: size = 8162 B / used = 119 B / count = 14 / avg = 8 B
 
-# strcache performance: lookups = 26 / hit rate = 46%
+# strcache performance: lookups = 25 / hit rate = 44%
 # hash-table stats:
-# Load=14/8192=0%, Rehash=0, Collisions=0/26=0%
-# Finished Make data base on Sat Jul 15 02:57:39 2023
+# Load=14/8192=0%, Rehash=0, Collisions=0/25=0%
+# Finished Make data base on Sun Jul 16 12:18:34 2023
 
  
