@@ -22,7 +22,6 @@
 % Bitte diese Zeile -nicht- aendern.
 \title{Gruppe \theGroup{} -- Abgabe zu Aufgabe \theNumber}
 
-
 \begin{document}
 \maketitle
 
@@ -37,10 +36,10 @@
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\textwidth, height=7cm]{Z-Curve Degree 1 to 4.png}
+        \includegraphics[width=0.4\textwidth, height=6cm]{z_kurve_grad_1_zu_4.png}
         \caption{Grad 1 bis 4 der Z-Kurve}
-        \label{fig:Z-Curve Degree 1 to 4}
-\end{figure}
+        \label{fig:Z-Kurve Grad 1 zu 4}
+    \end{figure}
 
 \noindent Ein konkretes Beispiel für die Anwendung der Z-Kurve findet sich in der Datenvisualisierung. Hier wird die Z-Kurve verwendet, um mehrdimensionale Daten auf einer eindimensionalen Achse darzustellen. Durch diese Transformation können komplexe Datensätze analysiert werden, indem Trends und Muster in den Daten identifiziert werden. Die Z-Kurve ermöglicht beispielsweise die Visualisierung zeitabhängiger Daten oder multidimensionaler Merkmale auf einer einzigen Achse.
 \setlength{\parskip}{1em}
@@ -72,7 +71,7 @@ Lösungs-\\ansätze. Anschließend wird die Korrektheit der Implementierung und 
 \noindent Nun werden die Lösungsansätze für die erste Funktion besprochen. Diese Funktion hat den Zweck, die x- und y-Koordinaten der Z-Kurve bis zu einem bestimmten Grad zu berechnen und in den übergebenen Arrays x und y abzuspeichern.
 \setlength{\parskip}{1em}
 
-\noindent Die rekursive Implementierung besteht aus zwei Funktionen: \texttt{z\_curve\_recursive} und\\  \texttt{z\_curve\_recursive\_helper}. Die Funktion \texttt{z\_curve\_recursive} dient als Einstiegspunkt und nimmt den Grad sowie die Zeiger auf die Arrays \texttt{x} und \texttt{y} entgegen, in denen die berechneten Koordinaten gespeichert werden sollen. Zunächst wird die Gesamtanzahl der Punkte berechnet, die von $4$ hoch den Grad abhängt.
+\noindent Die rekursive Implementierung besteht aus zwei Funktionen: \texttt{z\_curve\_recursive} und\\ \texttt{z\_curve\_recursive\_helper}. Die Funktion \texttt{z\_curve\_recursive} dient als Einstiegs- \\punkt und nimmt den Grad sowie die Zeiger auf die Arrays \texttt{x} und \texttt{y} entgegen, in denen die berechneten Koordinaten gespeichert werden sollen. Zunächst wird die Gesamtanzahl der Punkte berechnet, die von $4$ hoch den Grad abhängt.
 \setlength{\parskip}{1em}
 
 \noindent Die Funktion \texttt{z\_curve\_recursive\_helper} ist rekursiv implementiert und wird von \texttt{z\_curve} aufgerufen. Sie nimmt den Grad, die Startkoordinaten, die Zeiger auf die Arrays \texttt{x} und \texttt{y} sowie den Index entgegen. Die Funktion berechnet die Z-Kurve rekursiv, indem der Raum in Quadranten unterteilt wird. Die Rekursion erfolgt für jeden Quadranten: links oben, rechts oben, links unten und rechts unten. Dabei werden die Startkoordinaten schrittweise verändert, um sich dem gewünschten Punkt anzunähern. Der Grad wird bei jedem rekursiven Aufruf um $1$ verringert. Wenn der Grad den Wert $0$ erreicht hat, werden die berechneten x- und y-Koordinaten basierend auf den Startkoordinaten in den Arrays \texttt{x} und \texttt{y} gespeichert, und der Index wird erhöht. Durch die spezifische Reihenfolge der rekursiven Aufrufe entsteht die Z-Kurve.
@@ -87,7 +86,7 @@ Lösungs-\\ansätze. Anschließend wird die Korrektheit der Implementierung und 
 \noindent Erstens erfordert SIMD eine zusätzliche Einrichtung und Koordination, um mit den vektorisierten Daten zu arbeiten. Dies beinhaltet das Laden der Daten in SIMD-Register, die korrekte Ausrichtung der Daten und die Behandlung von verbleibenden Iterationen, die nicht in die SIMD-Vektorgröße passen. In unserem Fall ist das Letztere jedoch nicht relevant, da wir immer genau vier Punkte gleichzeitig bearbeiten und die Gesamtanzahl der Punkte ein Vielfaches von vier ist. Bei den nicht-SIMD-Versionen entfällt dieser Einrichtungs- und Koordinierungsaufwand, was zu einem geringeren Overhead und einer besseren Leistung führt.
 \setlength{\parskip}{1em}
 
-\noindent Zweitens könnte das schnellere Speicherzugriffsmuster der nicht-SIMD-Implementierung ein Grund sein. Die Standardimplementierung durchläuft und berechnet die Kurve sequenziell, was eine bessere Speicherlokalität und effizientes Caching und Prefetching durch den Prozessor ermöglicht. Bei der SIMD-Implementierung ist dies nicht garantiert. Die Verarbeitung mehrerer Punkte gleichzeitig mit vektorisierten Befehlen führt möglicherweise zu unterschiedlichen Speicherzugriffsmustern, die zu Cache-Fehlern führen und die Berechnung verlangsamen können.
+\noindent Zweitens könnte das schnellere Speicherzugriffsmuster der nicht SIMD-Implementie-\\rung ein Grund sein. Die Standardimplementierung durchläuft und berechnet die Kurve sequenziell, was eine bessere Speicherlokalität und effizientes Caching und Prefetching durch den Prozessor ermöglicht. Bei der SIMD-Implementierung ist dies nicht garantiert. Die Verarbeitung mehrerer Punkte gleichzeitig mit vektorisierten Befehlen führt möglicherweise zu unterschiedlichen Speicherzugriffsmustern, die zu Cache-Fehlern führen und die Berechnung verlangsamen können.
 
 \setlength{\parskip}{1em}
 
@@ -103,7 +102,7 @@ Um diesen Prozess zu verdeutlichen, betrachten wir Abbildung 2. Hier wird anhand
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\textwidth, height=7cm]{Bit Interleaving.png}
+        \includegraphics[width=0.4\textwidth, height=6cm]{bit_interleaving.png}
         \caption{Umkehrung der bitweisen Verzahnung}
         \label{fig:Bit Interleaving}
     \end{figure}
@@ -114,7 +113,7 @@ Um diesen Prozess zu verdeutlichen, betrachten wir Abbildung 2. Hier wird anhand
 
 \noindent Für die zweite (\texttt{z\_curve\_iterative}) und dritte (\texttt{z\_curve\_magic}) Implementierung wurden auch SIMD-Varianten entwickelt. Diese Implementierungen haben bestimmte Eigenschaften, die von SIMD-Verarbeitung gut genutzt werden können. Beide Funktionen verwenden Bitmanipulationen, und Bitmanipulationen sind bekanntermaßen gut für SIMD geeignet, da SIMD-Befehle effizient Bitmanipulationen auf mehrere Daten gleichzeitig anwenden können. Darüber hinaus werden bei beiden Implementierungen die Punkte in einer vordefinierten Reihenfolge und unabhängig voneinander berechnet. Diese Art von Datenparallelität lässt sich sehr gut mit SIMD umsetzen. Schließlich weisen beide Implementierungen aufgrund ihrer simplen Schleifenstruktur eine gute SIMD-Kompatibilität auf.
 
-\noindent Die verschiedenen Implementationen der zweiten und dritten Funktion haben sich parallel zur Entwicklung der ersten Funktion entwickelt. Die dritte Methode befasst sich mit der bitweisen Verzahnung, während es bei der zweiten Methode genau wie bei der ersten Methode um die Umkehrung dieser Verzahnung geht.
+\noindent Die verschiedenen Implementationen der zweiten und dritten Funktion haben sich parallel zur Entwicklung der ersten Funktion entwickelt. Die dritte Methode befasst sich mit der bitweisen Verzahnung, während es bei der zweiten Methode genau wie bei der ersten Methode um die Umkehrung dieser Verzahnung geht. Für beide Methoden wurden Kontrollen eingeführt, um ungültige Z-Werte sowie x- und y-Koordinaten anhand des gegebenen Grades abzufangen und zu behandeln. Dies stellt sicher, dass die Implementierungen robust und fehlerresistent sind und korrekte Ergebnisse liefern.
 
 \noindent In den folgenden Abschnitten werden wir die Genauigkeit und Korrektheit der Implementierung untersuchen und bewerten. Anschließend werden wir die Leistung der Implementierung analysieren und bewerten.
 \setlength{\parskip}{1em}
@@ -135,9 +134,9 @@ Um diesen Prozess zu verdeutlichen, betrachten wir Abbildung 2. Hier wird anhand
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{data}
-  \caption{Tushar adds his description here}
-  \label{fig:data}
+  \includegraphics[width=0.9\textwidth]{korrektheit_data.png}
+  \caption{Ausgabe von \texttt{testRun\_Method1()}}
+  \label{fig:Ausgabe von testRun_Method1()}
 \end{figure}
 
 \noindent Um die Analyse zu erleichtern und Abweichungen zu identifizieren, wurden die Testergebnisse auf der Konsole ausgegeben. Die Ausgaben sind in der obigen Tabelle aufgeführt. Die Ausgabe enthielt die Anzahl der gefundenen Abweichungen und die spezifischen Indizes, an denen sich die Koordinaten unterschieden. Dadurch konnte eine einfache Identifizierung und Überprüfung von Inkonsistenzen ermöglicht werden.
@@ -150,7 +149,7 @@ Um diesen Prozess zu verdeutlichen, betrachten wir Abbildung 2. Hier wird anhand
 
 \noindent Die Testergebnisse zeigen, dass für alle getesteten Grade von 0 bis 15 keine Abweichungen festgestellt wurden. Weder die Methode \texttt{z\_curve\_at()} noch die Methode \texttt{z\_curve\_pos()} haben fehlerhafte Koordinaten oder Indizes zurückgegeben.
 
-\noindent Somit können wir davon ausgehen, dass die Implementierungen der Methoden \texttt{z\_curve\_at()} und \texttt{z\_curve\_pos()} korrekt sind und die gewünschten Ergebnisse liefern. Die Testmethode \texttt{tester3()} diente dazu, diese Korrektheit zu verifizieren und die Zuverlässigkeit der Methoden sicherzustellen.
+\noindent Somit können wir davon ausgehen, dass die Implementierungen der Methoden\\ \texttt{z\_curve\_at()} und \texttt{z\_curve\_pos()} korrekt sind und die gewünschten Ergebnisse liefern. Die Testmethode \texttt{tester3()} diente dazu, diese Korrektheit zu verifizieren und die Zuverlässigkeit der Methoden sicherzustellen.
 
 
 \section{Performanzanalyse}
@@ -175,9 +174,9 @@ Hardware (Rechner Halle):
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\textwidth]{zkurve}
+  \includegraphics[width=1\textwidth]{z_kurve.png}
   \caption{Beziehung zwischen Zeit und Grad: Vergleich der Implementierungen}
-  \label{fig:zkurvegraph}
+  \label{fig:z kurve graph}
 \end{figure}
 
 \noindent Um die Methoden weiter zu vergleichen, berechneten wir die durchschnittliche Laufzeit für jede Methode und fassten die Ergebnisse in Tabelle 1 zusammen.
@@ -192,7 +191,7 @@ Hardware (Rechner Halle):
   \scriptsize
   \caption{Grad/Methoden}
 \begin{tabular}
-    {@{}p{0.7cm}p{1.8cm}p{2.4cm}p{2.1cm}p{2.7cm}p{2cm}@{}}
+    {@{}p{0.7cm}p{1.9cm}p{2.6cm}p{2.2cm}p{2.9cm}p{2.1cm}@{}}
     \toprule
     Grad & z\_curve\_magic & z\_curve\_magic\_simd & z\_curve\_recursive & z\_curve\_iterative\_simd & z\_curve\_iterative \\
     \midrule
@@ -234,9 +233,9 @@ Hardware (Rechner Halle):
 \bigskip
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\textwidth]{speicherGraph}
+  \includegraphics[width=0.9\textwidth]{speicher_graph.png}
   \caption{Speicherzuweisung in Gigabyte (GB) in Abhängigkeit vom Grad}
-  \label{fig:speicherGraph}
+  \label{fig:speicher Graph}
 \end{figure}
 
 \bigskip
@@ -244,6 +243,12 @@ Hardware (Rechner Halle):
 
 
 \section{Zusammenfassung und Ausblick}
+
+\noindent In diesem Projekt haben wir die Implementierung der Z-Kurve in C untersucht und drei Funktionen entwickelt. Die erste Funktion berechnet die Koordinaten bis zu einem bestimmten Grad und wird mittels einer SVG-Datei visualisiert. Die zweite Funktion ermittelt die x- und y-Koordinaten basierend auf einem gegebenen Z-Wert, während die dritte Funktion den Z-Wert anhand von x- und y-Koordinaten berechnet. Wir haben mehrere Implementierungen für diese Funktionen erstellt und miteinander verglichen und analysiert. 
+
+\noindent Ein Ausblick auf zukünftige Entwicklungen des Algorithmus umfasst die Erweiterung der Datentypen auf 64 Bit, um eine Darstellung und Berechnung von Gradstufen über 15 zu ermöglichen. Zudem könnte eine Lookup-Tabelle (LUT) implementiert werden, um die Leistung weiter zu steigern. Darüber hinaus könnten weitere Anwendungen der Z-Kurve erforscht werden beispielsweise im Bereich Datenkompression.
+
+\noindent Insgesamt hat dieses Projekt uns wertvolle Einblicke in die Z-Kurve und ihre Implementierungsmöglichkeiten gegeben. Es hat gezeigt, dass die Z-Kurve in verschiedenen Anwendungsbereichen eine effektive Methode zur Abbildung mehrdimensionaler Daten auf eine eindimensionale Sequenz sein kann und weiteres Potenzial für Verbesserungen und Anwendungen bietet.
 
 % TODO: Fuegen Sie Ihre Quellen der Datei Ausarbeitung.bib hinzu
 % Referenzieren Sie diese dann mit \cite{}.
