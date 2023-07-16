@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Jul 16 18:27:02 2023
+# Make data base, printed on Sun Jul 16 22:48:17 2023
 
 # Variables
 
@@ -121,7 +121,7 @@ _ = /u/halle/gaertnep/home_at/.vscode-server/bin/74f6148eb9ea00507ec113ec51c489d
 # environment
 XDG_RUNTIME_DIR = /run/user/7676
 # environment
-VSCODE_IPC_HOOK_CLI = /run/user/7676/vscode-ipc-6e413cf7-1784-458d-bbdd-6663a116517d.sock
+VSCODE_IPC_HOOK_CLI = /run/user/7676/vscode-ipc-1d7cee7b-19d4-42ad-956a-957dc8037b81.sock
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -211,6 +211,6 @@ GNUmakefile:
 # strcache performance: lookups = 21 / hit rate = 14%
 # hash-table stats:
 # Load=18/8192=0%, Rehash=0, Collisions=0/21=0%
-# Finished Make data base on Sun Jul 16 18:27:02 2023
+# Finished Make data base on Sun Jul 16 22:48:17 2023
 
  

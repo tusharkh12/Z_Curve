@@ -870,22 +870,29 @@ void rahmen_svg(coord_t* xCoords, coord_t* yCoords,unsigned numberOfPoints){
 
 void addDefaultArgument(char *argv[], int *argc) {
     const char *target = "-B";
-    const char *defaultArg = "0";
-    for (int i = 0; i < *argc - 1; i++) {
-        if (strcmp(argv[i], target) == 0 && argv[i + 1][0] == '-') {
-            // Insert default argument after "-B"
-            int len = strlen(defaultArg);
-            char *newArg = (char *) malloc(len + 1);
-            strcpy(newArg, defaultArg);
-
-            // Shift arguments to make room for default argument
-            for (int j = *argc; j > i + 1; j--) {
-                argv[j] = argv[j - 1];
+    const char *defaultArg = "1";
+    for (int i = 0; i < *argc; i++) {
+        if (strcmp(argv[i], target) == 0) {
+            int nextArgIndex = i + 1;
+            // Check if the next argument(s) is empty or starts with a hyphen
+            while (nextArgIndex < *argc && (argv[nextArgIndex][0] == '-' || strlen(argv[nextArgIndex]) == 0)) {
+                nextArgIndex++;
             }
+            if (nextArgIndex == *argc || argv[nextArgIndex][0] == '-') {
+                // Insert default argument after "-B"
+                int len = strlen(defaultArg);
+                char *newArg = (char *) malloc(len + 1);
+                strcpy(newArg, defaultArg);
 
-            // Insert default argument
-            argv[i + 1] = newArg;
-            (*argc)++;  // Increase argument count
+                // Shift arguments to make room for default argument
+                (*argc)++;  // Increase argument count
+                for (int j = *argc - 1; j > i + 1; j--) {
+                    argv[j] = argv[j - 1];
+                }
+
+                // Insert default argument
+                argv[i + 1] = newArg;
+            }
         }
     }
 }
