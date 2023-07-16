@@ -782,7 +782,7 @@ void describe_Vmethod_option() {
 
 void rahmenProgram_helper( unsigned implementation ,unsigned repetitions,unsigned degree,coord_t* xCoords,
                            coord_t* yCoords,int measure_runtime){
-    for (int i = 0; i <= repetitions; i++) {
+    for (int i = 0; i < repetitions; i++) {
         double sum = 0;
 
             struct timespec start, end;
