@@ -782,7 +782,7 @@ void describe_Vmethod_option() {
 
 void rahmenProgram_helper( unsigned implementation ,unsigned repetitions,unsigned degree,coord_t* xCoords,
                            coord_t* yCoords,int measure_runtime){
-    for (int i = 0; i <= repetitions; i++) {
+    for (int i = 0; i < repetitions; i++) {
         double sum = 0;
 
             struct timespec start, end;
@@ -899,7 +899,7 @@ void addDefaultArgument(char *argv[], int *argc) {
 
 void rahmenProgram(int argc, char *argv[]) {
     unsigned implementation = 0;  // Default implementation set to 0
-    unsigned repetitions = 0;     // Default repetitions set to 0
+    unsigned repetitions = 1;     // Default repetitions set to 0
     unsigned degree = 2;          // Default degree set to 1
     coord_t x = 0;                // Default x set to 0
     coord_t y = 0;                // Default y set to 0
