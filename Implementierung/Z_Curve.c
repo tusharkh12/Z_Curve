@@ -1033,7 +1033,13 @@ void rahmenProgram(int argc, char *argv[]) {
 
 
     ////2nd method check
-
+    if ((idx >= numberOfPoints ) || (idx < 0 )) {
+        printf("Invalid index for z_curve_at method: %s\n", "ERROR");
+        printf("Index should be between 0 to %u for degree %u\n\n",numberOfPoints-1,degree);
+        fprintf(stderr, "Wrong index arguments\n\n");
+        //print_usage();
+        return ;
+    }
     if ((idx >= numberOfPoints && call_z_curve_at == 1) || (idx < 0 && call_z_curve_at == 1)) {
         printf("Invalid index for z_curve_at method: %s\n", "ERROR");
         printf("Index should be between 0 to %u for degree %u\n\n",numberOfPoints-1,degree);
