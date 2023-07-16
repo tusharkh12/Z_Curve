@@ -36,10 +36,10 @@
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=0.4\textwidth, height=6cm]{z_kurve_grad_1_zu_4.png}
-        \caption{Grad 1 bis 4 der Z-Kurve}
+        \includegraphics[width=0.4\textwidth, height=6cm]{resources/z_kurve_grad_1_zu_4.png}
+        \caption{Grad 1 bis 4 der Z-Kurve~\cite{eppstein}}
         \label{fig:Z-Kurve Grad 1 zu 4}
-    \end{figure}
+\end{figure}
 
 \noindent Ein konkretes Beispiel für die Anwendung der Z-Kurve findet sich in der Datenvisualisierung. Hier wird die Z-Kurve verwendet, um mehrdimensionale Daten auf einer eindimensionalen Achse darzustellen. Durch diese Transformation können komplexe Datensätze analysiert werden, indem Trends und Muster in den Daten identifiziert werden. Die Z-Kurve ermöglicht beispielsweise die Visualisierung zeitabhängiger Daten oder multidimensionaler Merkmale auf einer einzigen Achse.
 \setlength{\parskip}{1em}
@@ -102,12 +102,12 @@ Um diesen Prozess zu verdeutlichen, betrachten wir Abbildung 2. Hier wird anhand
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=0.4\textwidth, height=6cm]{bit_interleaving.png}
-        \caption{Umkehrung der bitweisen Verzahnung}
+        \includegraphics[width=0.4\textwidth, height=6cm]{resources/bit_interleaving.png}
+        \caption{Umkehrung der bitweisen Verzahnung~\cite{nomen4omen}}
         \label{fig:Bit Interleaving}
     \end{figure}
 
-\noindent Die zweite Implementierung war immer noch ineffizient, da der Prozess, um die Bitverzahnung umzukehren mit einer for-Schleife durchgeführt wurde. Daher wurde für die dritte Implementierung (\texttt{z\_curve\_magic}) die Idee in Betracht gezogen, diesen Prozess mithilfe von Bit-Shift-Operationen zu optimieren. Dabei stießen wir auf den effizientesten Algorithmus mit Bit-Shifts, der in einem Blog gefunden wurde. Die betreffende Methode wurde mit dem Schlüsselwort "inline" erweitert, um dem Compiler den Hinweis zu geben, den Funktionscode direkt anstatt eines separaten Funktionsaufrufs in den Code einzufügen. Dieses Einbetten des Codes an der Aufrufstelle, auch Inline-Ausführung genannt, kann den Overhead eines Funktionsaufrufs vermeiden und potenziell die Leistung verbessern. Allerdings bleibt die Entscheidung schlussendlich beim Compiler selbst, ob er den Hinweis "inline" beachtet und die Funktion inline ausführt.
+\noindent Die zweite Implementierung war immer noch ineffizient, da der Prozess, um die Bitverzahnung umzukehren mit einer for-Schleife durchgeführt wurde. Daher wurde für die dritte Implementierung (\texttt{z\_curve\_magic}) die Idee in Betracht gezogen, diesen Prozess mithilfe von Bit-Shift-Operationen zu optimieren. Dabei stießen wir auf den effizientesten Algorithmus mit Bit-Shifts, der in einem Blog gefunden wurde ~\cite{morton-codes}. Die betreffende Methode wurde mit dem Schlüsselwort "inline" erweitert, um dem Compiler den Hinweis zu geben, den Funktionscode direkt anstatt eines separaten Funktionsaufrufs in den Code einzufügen~\cite{wolf}. Dieses Einbetten des Codes an der Aufrufstelle, auch Inline-Ausführung genannt, kann den Overhead eines Funktionsaufrufs vermeiden und potenziell die Leistung verbessern. Allerdings bleibt die Entscheidung schlussendlich beim Compiler selbst, ob er den Hinweis "inline" beachtet und die Funktion inline ausführt.
 
 \noindent Die Methode \texttt{ReversePart1By1} wurde entwickelt, um den bitweisen Verzahnungsprozess umzukehren und den Wert einer Koordinate zurückzugeben. In dieser Methode wird zuerst eine Maskierung durchgeführt, um die ursprünglichen verzahnten Bits der Koordinate zu isolieren und den Rest auf Null zu setzen. Anschließend werden XOR-Operationen verwendet, um die originalen Bits von "z" mit ihren entsprechend verschobenen Bits zu vergleichen. Dadurch können die verzahnten Bits extrahiert werden, da die Bits, die sich durch die bitweise Verzahnung geändert haben, nach der XOR-Operation den Wert 1 haben. In jeder Iteration wird die Koordinate um eine größere Anzahl von Positionen nach rechts verschoben und eine andere Bitmaske verwendet. Schließlich stellen wir sicher, dass nur die am wenigsten signifikanten 16 Bits beibehalten werden und alle übrigen Bits verworfen werden. Diese Operation ist möglich, ohne Informationen über die Koordinate zu verlieren, da bei einem Grad von 15 die größte Koordinate nur 15 Bits benötigt. Durch die Kombination dieser Schritte wird die bitweise Verzahnung rückgängig gemacht und der ursprüngliche Zustand der Koordinate wiederhergestellt, indem bestimmte Bits isoliert und mit entsprechend verschobenen Bits verglichen werden.
 
@@ -134,7 +134,7 @@ Um diesen Prozess zu verdeutlichen, betrachten wir Abbildung 2. Hier wird anhand
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{korrektheit_data.png}
+  \includegraphics[width=0.8\textwidth]{resources/korrektheit_data.png}
   \caption{Ausgabe von \texttt{testRun\_Method1()}}
   \label{fig:Ausgabe von testRun_Method1()}
 \end{figure}
@@ -164,17 +164,17 @@ Hardware (Rechner Halle):
   \item CFLAGS: -O3 -march=native
 \end{itemize}
 
-\noindent Wir haben die Leistung der Z-Order Curve-Implementierung unter Verwendung der gegebenen Hardwarekonfiguration bewertet. Die Implementierung wurde für eine Reihe von Eingabegraden ausgeführt. Zu den gemessenen Leistungsmetriken gehören Laufzeit und Speicherbedarf.
+\noindent Wir haben die Leistung der Z-Order Kurve-Implementierung unter Verwendung der gegebenen Hardwarekonfiguration bewertet. Die Implementierung wurde für eine Reihe von Eingabegraden ausgeführt. Zu den gemessenen Leistungsmetriken gehören Laufzeit und Speicherbedarf.
 
-\noindent Die Laufzeitanalyse wurde durch Messung der Ausführungszeit verschiedener Z-Order\\ Curve-Algorithmen/Methoden für verschiedene Eingabegrade durchgeführt. Jede Methode wurde 20 Mal ausgeführt, und die durchschnittliche Laufzeit für jeden Grad bis zu Grad 15 wurde berechnet, um die statistische Zuverlässigkeit zu gewährleisten. Die Laufzeitmessungen wurden unter Verwendung geeigneter Zeitmessungsmechanismen durchgeführt, die von der für die Implementierung verwendeten Programmiersprache oder dem Framework bereitgestellt wurden.
+\noindent Die Laufzeitanalyse wurde durch Messung der Ausführungszeit verschiedener Z-Order\\ Kurve-Algorithmen/Methoden für verschiedene Eingabegrade durchgeführt. Jede Methode wurde 20 Mal ausgeführt, und die durchschnittliche Laufzeit für jeden Grad bis zu Grad 15 wurde berechnet, um die statistische Zuverlässigkeit zu gewährleisten. Die Laufzeitmessungen wurden unter Verwendung geeigneter Zeitmessungsmechanismen durchgeführt, die von der für die Implementierung verwendeten Programmiersprache oder dem Framework bereitgestellt wurden.
 
-\noindent Wir verglichen verschiedene Implementierungen oder Optimierungsansätze des Z-Order Curve Algorithmus und analysierten ihre Auswirkungen auf die Leistung. Diese Analyse umfasste die Bewertung der Laufzeit jeder Implementierung für verschiedene Eingabegrade.
+\noindent Wir verglichen verschiedene Implementierungen oder Optimierungsansätze des Z-Order Kurve Algorithmus und analysierten ihre Auswirkungen auf die Leistung. Diese Analyse umfasste die Bewertung der Laufzeit jeder Implementierung für verschiedene Eingabegrade.
 
 \noindent Um einen klaren Vergleich zu ermöglichen, präsentieren wir in Abbildung 4 ein umfassendes Diagramm, das die Beziehung zwischen Zeit in Sekunden (y-Achse) und Grad (x-Achse) für fünf verschiedene Implementierungen darstellt.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\textwidth]{z_kurve.png}
+  \includegraphics[width=1\textwidth]{resources/z_kurve.png}
   \caption{Beziehung zwischen Zeit und Grad: Vergleich der Implementierungen}
   \label{fig:z kurve graph}
 \end{figure}
@@ -230,15 +230,13 @@ Hardware (Rechner Halle):
 
 
 \noindent Die Grafik in Abbildung 5 zeigt die Speicherzuweisung in Gigabyte (GB) und verdeutlicht ihren exponentiellen Charakter. Die x-Achse stellt den Grad dar, während die y-Achse den Speicher in GB angibt. Bemerkenswert ist, dass bei einem Grad von 15 die Speicherzuteilung 8 GB erreicht, bei einem Grad von 20 jedoch dramatisch auf 8 TB ansteigt!
-\bigskip
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{speicher_graph.png}
+  \includegraphics[width=0.9\textwidth]{resources/speicher_graph.png}
   \caption{Speicherzuweisung in Gigabyte (GB) in Abhängigkeit vom Grad}
   \label{fig:speicher Graph}
 \end{figure}
 
-\bigskip
 \noindent Insgesamt lieferte die Leistungsanalyse des Z-Order Curve Algorithmus auf der gegebenen Hardwarekonfiguration Einblicke in die Effizienz der verschiedenen Implementierungen und deren Auswirkungen auf die Laufzeit. Die Ergebnisse können als wertvolle Orientierungshilfe für die Optimierung der Leistung des Algorithmus und das Verständnis der Implementierungen auf der Grundlage der spezifischen Anforderungen und Einschränkungen der Anwendung dienen.
 
 
@@ -255,5 +253,7 @@ Hardware (Rechner Halle):
 % Beispiel: CR2 ist ein Register der x86-Architektur~\cite{intel2017man}.
 \bibliographystyle{plain}
 \bibliography{Ausarbeitung}{}
+
+
 
 \end{document}
