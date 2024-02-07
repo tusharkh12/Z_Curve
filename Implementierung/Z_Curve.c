@@ -972,8 +972,7 @@ void rahmenProgram(int argc, char *argv[]) {
         }
     }
 
-    // Handle missing options and positional arguments
-    // ...
+
 
     // Assign positional arguments to x and y
     if (argc - optind >= 1) {
